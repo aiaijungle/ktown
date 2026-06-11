@@ -6,36 +6,41 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#FF8C00">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="K-Town">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--amber:#FF8C00;--rose:#E8546B;--ink:#1a1413;--ok:#27c093}
+:root{--amber:#FF8C00;--rose:#E8546B;--ink:#1a1413;--ok:#27c093;
+  --cute:'Jua','Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --display:'Black Han Sans','Jua',sans-serif}
 body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
   background:radial-gradient(1200px 700px at 50% -10%,#2a1d12,#100a06 60%);color:#fff;
   min-height:100vh;display:flex;justify-content:center;word-break:keep-all;-webkit-font-smoothing:antialiased}
 #app{width:100%;max-width:460px;min-height:100vh;padding:22px 20px 40px;display:flex;flex-direction:column;position:relative;z-index:1}
 .bar{display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.bar .logo{font-size:14px;font-weight:800;letter-spacing:.04em;color:var(--amber)}
+.bar .logo{font-family:var(--display);font-size:16px;font-weight:400;letter-spacing:.04em;color:var(--amber)}
 .bar .prog{flex:1;height:7px;background:#ffffff14;border-radius:99px;overflow:hidden}
 .bar .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--rose));transition:width .5s}
 .bar .me{font-size:13px;color:#cbb8a6;font-weight:700;white-space:nowrap}
 .scene{flex:1;display:flex;flex-direction:column;justify-content:center;animation:fade .4s}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
-h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.18}
+h1{font-family:var(--cute);font-size:31px;font-weight:400;letter-spacing:-.01em;line-height:1.22}
 h1 .a{color:var(--amber)}
 .lead{color:#cbb8a6;font-size:15.5px;line-height:1.6;margin-top:12px}
 .spacer{flex:1}
-.btn{width:100%;font-size:17px;font-weight:800;padding:16px;border:none;border-radius:15px;cursor:pointer;
+.btn{width:100%;font-family:var(--cute);font-size:18px;font-weight:400;letter-spacing:.01em;padding:16px;border:none;border-radius:15px;cursor:pointer;
   background:linear-gradient(135deg,var(--amber),var(--rose));color:#fff;transition:all .2s;margin-top:14px}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px #ff8c0055}
 .btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
 .btn.ghost{background:#ffffff12;border:1px solid #ffffff22}
 input.name{width:100%;font-size:19px;padding:16px;border-radius:14px;border:1px solid #ffffff26;background:#ffffff10;color:#fff;outline:none;text-align:center;transition:all .2s}
 input.name:focus{border-color:var(--amber)}
-.hanbig{font-size:80px;font-weight:800;text-align:center;margin:8px 0;animation:pop .5s}
+.hanbig{font-family:var(--cute);font-size:84px;font-weight:400;text-align:center;margin:8px 0;animation:pop .5s}
 .cap{text-align:center;color:#cbb8a6;font-size:14px}
 /* lesson tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:22px 0}
@@ -59,7 +64,7 @@ input.name:focus{border-color:var(--amber)}
 .passport{background:linear-gradient(150deg,#1c2f6b,#2a1d6b);border:1px solid #ffffff22;border-radius:20px;padding:26px;text-align:center;position:relative;overflow:hidden;animation:pop .5s}
 .passport::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 12%,#ffffff22,transparent 40%)}
 .passport .ttl{font-size:12px;letter-spacing:.22em;color:#aeb8e6;font-weight:800}
-.passport .nm{font-size:40px;font-weight:800;margin:10px 0 2px}
+.passport .nm{font-family:var(--cute);font-size:42px;font-weight:400;margin:10px 0 2px}
 .stamp{display:inline-block;margin-top:14px;border:3px solid var(--ok);color:var(--ok);border-radius:12px;
   padding:8px 16px;font-weight:800;font-size:16px;transform:rotate(-7deg);animation:pop .6s .2s both}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--ink);
@@ -81,7 +86,7 @@ input.name:focus{border-color:var(--amber)}
 .confetti{position:fixed;width:9px;height:9px;border-radius:2px;z-index:30;pointer-events:none;animation:cf .95s ease-out forwards}
 .confetti.jamo{width:auto;height:auto;background:none;border-radius:0;font-weight:800;font-size:22px;line-height:1;text-shadow:0 1px 6px #0007}
 @keyframes cf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
-.popup{position:fixed;left:50%;top:36%;transform:translateX(-50%);font-size:27px;font-weight:800;color:#FFB000;text-shadow:0 2px 14px #000,0 0 20px #ff8c0088;z-index:31;pointer-events:none;white-space:nowrap;animation:pu 1.1s ease-out forwards}
+.popup{position:fixed;left:50%;top:36%;transform:translateX(-50%);font-family:var(--cute);font-size:29px;font-weight:400;color:#FFB000;text-shadow:0 2px 14px #000,0 0 20px #ff8c0088;z-index:31;pointer-events:none;white-space:nowrap;animation:pu 1.1s ease-out forwards}
 @keyframes pu{0%{transform:translateX(-50%) scale(.4);opacity:0}25%{transform:translateX(-50%) scale(1.2);opacity:1}100%{transform:translateX(-50%) translateY(-70px) scale(1);opacity:0}}
 .flash{position:fixed;inset:0;background:radial-gradient(circle,#FF8C0066,transparent 70%);z-index:29;pointer-events:none;animation:fl .5s ease-out forwards}
 @keyframes fl{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
@@ -111,7 +116,7 @@ input.name:focus{border-color:var(--amber)}
 .slideshow .sl.on{opacity:1;animation:slken 6s ease-in-out infinite alternate}
 @keyframes slken{from{transform:scale(1.02)}to{transform:scale(1.09)}}
 .slideshow::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 45%,#000b);pointer-events:none;z-index:1}
-.slcap{position:absolute;left:16px;bottom:13px;z-index:2;font-size:26px;font-weight:800;color:#fff;text-shadow:0 2px 12px #000;line-height:1.1;opacity:1;transition:opacity .35s ease}
+.slcap{position:absolute;left:16px;bottom:13px;z-index:2;font-family:var(--cute);font-size:28px;font-weight:400;color:#fff;text-shadow:0 2px 12px #000;line-height:1.1;opacity:1;transition:opacity .35s ease}
 .slcap .r{display:block;font-size:12.5px;font-weight:600;color:#ffd166;margin-top:2px}
 .slcap .spk{position:absolute;right:-2px;top:-40px;font-size:17px;opacity:.85}
 .sldots{position:absolute;right:13px;bottom:15px;z-index:2;display:flex;gap:5px}
@@ -276,7 +281,7 @@ function title(){touchStreak();startRain();setProg(0);scene.innerHTML=`
   $('go').onclick=enterName;
 }
 /* 타이틀 사진 슬라이드 — 저작권 안전 스톡(연예인 X) + 한글 캡션 학습 */
-const SLIDES=[['man.jpg','안녕','annyeong'],['seoul.jpg','서울','Seoul'],['woman.jpg','사랑해','saranghae'],['busan.jpg','부산','Busan'],['concert.jpg','콘서트','concert'],['samgyeopsal.jpg','삼겹살','samgyeopsal'],['gimbap.jpg','김밥','gimbap'],['man2.jpg','대박','daebak'],['woman2.jpg','한국','Korea'],['food2.jpg','맛있어','tasty']];
+const SLIDES=[['man.jpg','안녕','annyeong'],['woman3.jpg','예뻐','yeppeo'],['seoul.jpg','서울','Seoul'],['man3.jpg','최고','choego'],['woman.jpg','사랑해','saranghae'],['busan.jpg','부산','Busan'],['man4.jpg','화이팅','hwaiting'],['concert.jpg','콘서트','concert'],['woman4.jpg','멋져','meotjyeo'],['samgyeopsal.jpg','삼겹살','samgyeopsal'],['gimbap.jpg','김밥','gimbap'],['man2.jpg','대박','daebak'],['woman2.jpg','한국','Korea'],['food2.jpg','맛있어','tasty']];
 let _slTimer=null;
 function startSlideshow(){
   const box=$('slideshow');if(!box)return;
