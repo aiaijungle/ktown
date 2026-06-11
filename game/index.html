@@ -220,7 +220,7 @@ function say(t){
   try{const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
 
 /* ===== game state ===== */
-const S={name:'',han:'',step:0,total:11,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false};
+const S={name:'',han:'',step:0,total:20,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false};
 const $=id=>document.getElementById(id);
 const scene=$('scene');
 function setProg(n){S.step=n;$('prog').style.width=(n/S.total*100)+'%';$('me').innerHTML=(S.streak?'🔥 '+S.streak+' &nbsp; ':'')+'⭐ '+S.xp;}
@@ -378,6 +378,33 @@ const MISSIONS=[
      {q:'To order, you say "please give me". Tap <b>주세요</b>.',
       choices:[{kr:'주세요',en:'Please give me',ok:true},{kr:'안녕',en:'Hi / Bye'},{kr:'얼마예요',en:'How much?'}]}],
    stamp:'식당 비빔밥'},
+  {id:'subway-bus',emoji:'🚇',title:'Ride the <span class="a">subway</span>',place:'Subway station',
+   lead:'Get around Korea. Read the signs and catch the right line — subway, bus, transfer.',
+   lesson:[{h:'지하철',r:'jihacheol · subway'},{h:'버스',r:'beoseu · bus'},{h:'역',r:'yeok · station'},{h:'출구',r:'chulgu · exit'},{h:'환승',r:'hwanseung · transfer'},{h:'교통카드',r:'gyotongkadeu · transit card'}],
+   rounds:[
+     {q:'You need the <b>지하철</b> (subway). Tap the sign.',
+      choices:[{kr:'지하철',en:'Subway',ok:true},{kr:'택시',en:'Taxi'},{kr:'공항',en:'Airport'}]},
+     {q:'Time to leave. Tap the <b>출구</b> (exit).',
+      choices:[{kr:'출구',en:'Exit',ok:true},{kr:'입구',en:'Entrance'},{kr:'화장실',en:'Restroom'}]}],
+   stamp:'지하철 환승'},
+  {id:'cafe',emoji:'☕',title:'Order at a <span class="a">cafe</span>',place:'Korean cafe',
+   lead:'Coffee time. Read the menu and order like a local — iced or hot, your size, your drink.',
+   lesson:[{h:'커피',r:'keopi · coffee'},{h:'아메리카노',r:'americano'},{h:'라떼',r:'latte'},{h:'아이스',r:'aiseu · iced'},{h:'사이즈',r:'saijeu · size'},{h:'주세요',r:'juseyo · please'}],
+   rounds:[
+     {q:'You want it cold. Tap <b>아이스</b> (iced).',
+      choices:[{kr:'아이스',en:'Iced',ok:true},{kr:'따뜻한',en:'Hot'},{kr:'우유',en:'Milk'}]},
+     {q:'Order an <b>아메리카노</b>. Tap it on the menu.',
+      choices:[{kr:'아메리카노',en:'Americano',ok:true},{kr:'라떼',en:'Latte'},{kr:'녹차',en:'Green tea'}]}],
+   stamp:'카페 아메리카노'},
+  {id:'kpop-slang',emoji:'💜',title:'Talk like a <span class="a">fan</span>',place:'Online · fandom',
+   lead:'Cheer for your bias online. Read the words K-pop fans use every day — and post like a real stan.',
+   lesson:[{h:'화이팅',r:'hwaiting · you got this'},{h:'대박',r:'daebak · awesome'},{h:'최고',r:'choego · the best'},{h:'짱',r:'jjang · the best'},{h:'사랑해',r:'saranghae · I love you'},{h:'행복',r:'haengbok · happy'}],
+   rounds:[
+     {q:'Cheer them on! Tap <b>화이팅</b> (you got this).',
+      choices:[{kr:'화이팅',en:'You got this!',ok:true},{kr:'미안',en:'Sorry'},{kr:'안녕',en:'Hi / Bye'}]},
+     {q:'That comeback is <b>대박</b> (awesome)! Tap it.',
+      choices:[{kr:'대박',en:'Awesome',ok:true},{kr:'별로',en:'Meh'},{kr:'글쎄',en:'Hmm'}]}],
+   stamp:'팬 화이팅'},
 ];
 const FREE_MISSIONS=3;
 function startMission(idx){S.mi=idx;const m=MISSIONS[idx];setProg(2+idx*3);
@@ -421,7 +448,7 @@ function runRound(idx,ri){const m=MISSIONS[idx],r=m.rounds[ri];setProg(2+idx*3+1
     };wrap.appendChild(el);});
 }
 function passport(idx){const m=MISSIONS[idx];setProg(2+idx*3+2);
-  const more=idx+1<FREE_MISSIONS;
+  const more=idx+1<MISSIONS.length;
   scene.innerHTML=`<h1>🪪 <span class="a">${t('ppTitle')}</span></h1>
   <div class="passport">
     <div class="ttl">K-TOWN · ENTRY STAMP</div>
@@ -444,7 +471,7 @@ function passport(idx){const m=MISSIONS[idx];setProg(2+idx*3+2);
   setTimeout(()=>{const st=document.querySelector('.stamp');if(st){const r=st.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2,46);}sndStamp();buzz(60);},300);
 }
 /* 게임 완주 — 결제 없음. 전부 무료, 공유가 다음 단계 (바이럴) */
-function finishGame(){setProg(6);
+function finishGame(){setProg(S.total);
   scene.innerHTML=`<h1>🎉 <span class="a">You can read Korean!</span></h1>
   <p class="lead">You finished K-Town — and it's <b style="color:#27c093">100% free</b>. 친구도 한글 읽게 만들어 주세요!</p>
   <div class="passport" style="background:linear-gradient(150deg,#27c093,#1c8f6b)">
