@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>K-Town Survival — Learn to read Korean</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FF8C00">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="K-Town">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--amber:#FF8C00;--rose:#E8546B;--ink:#1a1413;--ok:#27c093}
+body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  background:radial-gradient(1200px 700px at 50% -10%,#2a1d12,#100a06 60%);color:#fff;
+  min-height:100vh;display:flex;justify-content:center;word-break:keep-all;-webkit-font-smoothing:antialiased}
+#app{width:100%;max-width:460px;min-height:100vh;padding:22px 20px 40px;display:flex;flex-direction:column;position:relative;z-index:1}
+.bar{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.bar .logo{font-size:14px;font-weight:800;letter-spacing:.04em;color:var(--amber)}
+.bar .prog{flex:1;height:7px;background:#ffffff14;border-radius:99px;overflow:hidden}
+.bar .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--rose));transition:width .5s}
+.bar .me{font-size:13px;color:#cbb8a6;font-weight:700;white-space:nowrap}
+.scene{flex:1;display:flex;flex-direction:column;justify-content:center;animation:fade .4s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.18}
+h1 .a{color:var(--amber)}
+.lead{color:#cbb8a6;font-size:15.5px;line-height:1.6;margin-top:12px}
+.spacer{flex:1}
+.btn{width:100%;font-size:17px;font-weight:800;padding:16px;border:none;border-radius:15px;cursor:pointer;
+  background:linear-gradient(135deg,var(--amber),var(--rose));color:#fff;transition:all .2s;margin-top:14px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px #ff8c0055}
+.btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.btn.ghost{background:#ffffff12;border:1px solid #ffffff22}
+input.name{width:100%;font-size:19px;padding:16px;border-radius:14px;border:1px solid #ffffff26;background:#ffffff10;color:#fff;outline:none;text-align:center;transition:all .2s}
+input.name:focus{border-color:var(--amber)}
+.hanbig{font-size:80px;font-weight:800;text-align:center;margin:8px 0;animation:pop .5s}
+.cap{text-align:center;color:#cbb8a6;font-size:14px}
+/* lesson tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:22px 0}
+.tile{background:#ffffff10;border:1px solid #ffffff22;border-radius:16px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .15s;overflow:hidden}
+.tile:hover{border-color:var(--amber);background:#ffffff18;transform:translateY(-2px)}
+.tile.done{border-color:var(--ok);background:#27c09320}
+.tile .h{font-size:30px;font-weight:800;white-space:nowrap;letter-spacing:-.01em}
+.tile.long .h{font-size:21px}
+.tile .r{font-size:12px;color:#cbb8a6;margin-top:4px}
+/* quiz choices */
+.q{font-size:15px;color:#cbb8a6;margin-bottom:6px}
+.signs{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+.sign{display:flex;align-items:center;gap:14px;background:#ffffff0d;border:2px solid #ffffff1c;border-radius:16px;padding:16px 18px;cursor:pointer;transition:all .15s;text-align:left}
+.sign:hover{border-color:#ffffff44}
+.sign.right{border-color:var(--ok);background:#27c09322}
+.sign.wrong{border-color:var(--rose);background:#e8546b22}
+.sign .kr{font-size:26px;font-weight:800}
+.sign .en{font-size:13px;color:#9b8a7a}
+.spk{margin-left:auto;font-size:20px;opacity:.8}
+/* passport */
+.passport{background:linear-gradient(150deg,#1c2f6b,#2a1d6b);border:1px solid #ffffff22;border-radius:20px;padding:26px;text-align:center;position:relative;overflow:hidden;animation:pop .5s}
+.passport::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 12%,#ffffff22,transparent 40%)}
+.passport .ttl{font-size:12px;letter-spacing:.22em;color:#aeb8e6;font-weight:800}
+.passport .nm{font-size:40px;font-weight:800;margin:10px 0 2px}
+.stamp{display:inline-block;margin-top:14px;border:3px solid var(--ok);color:var(--ok);border-radius:12px;
+  padding:8px 16px;font-weight:800;font-size:16px;transform:rotate(-7deg);animation:pop .6s .2s both}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--ink);
+  font-weight:700;font-size:14px;padding:12px 20px;border-radius:99px;opacity:0;transition:all .3s;pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.legal{color:#6f6256;font-size:11px;text-align:center;margin-top:18px;line-height:1.5}
+/* share sheet */
+.sheet{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}
+.sheet.on{display:flex}
+.sheetc{background:#161019;border:1px solid #ffffff1c;border-bottom:none;border-radius:22px 22px 0 0;width:100%;max-width:460px;padding:22px 20px 28px;animation:up .3s}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheetc h3{font-size:17px;font-weight:800}.sheetc .ps{color:#cbb8a6;font-size:13px;margin:4px 0 16px}
+.shareImg{width:100%;border-radius:14px;margin-bottom:16px;box-shadow:0 10px 30px #0007}
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sbtn{display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:700;padding:13px;border-radius:12px;border:1px solid #ffffff22;background:#ffffff12;color:#fff;cursor:pointer;transition:all .15s}
+.sbtn:hover{background:#ffffff1e}.sbtn.x{background:#000;border-color:#444}
+.sclose{width:100%;margin-top:12px;background:none;border:none;color:#8c7c6c;font-size:14px;cursor:pointer}
+/* juice */
+.confetti{position:fixed;width:9px;height:9px;border-radius:2px;z-index:30;pointer-events:none;animation:cf .95s ease-out forwards}
+.confetti.jamo{width:auto;height:auto;background:none;border-radius:0;font-weight:800;font-size:22px;line-height:1;text-shadow:0 1px 6px #0007}
+@keyframes cf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+.popup{position:fixed;left:50%;top:36%;transform:translateX(-50%);font-size:27px;font-weight:800;color:#FFB000;text-shadow:0 2px 14px #000,0 0 20px #ff8c0088;z-index:31;pointer-events:none;white-space:nowrap;animation:pu 1.1s ease-out forwards}
+@keyframes pu{0%{transform:translateX(-50%) scale(.4);opacity:0}25%{transform:translateX(-50%) scale(1.2);opacity:1}100%{transform:translateX(-50%) translateY(-70px) scale(1);opacity:0}}
+.flash{position:fixed;inset:0;background:radial-gradient(circle,#FF8C0066,transparent 70%);z-index:29;pointer-events:none;animation:fl .5s ease-out forwards}
+@keyframes fl{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+.sign.right{animation:rpop .4s}@keyframes rpop{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+/* word dex */
+.dexbar{height:10px;background:#ffffff14;border-radius:99px;overflow:hidden;margin:8px 0 4px}
+.dexbar i{display:block;height:100%;background:linear-gradient(90deg,#27c093,#FF8C00);transition:width .5s}
+.achv{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 4px}
+.badge{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid #ffffff22;background:#ffffff0d;color:#6f6256}
+.badge.on{color:#1a1413;background:linear-gradient(135deg,#ffd166,#FF8C00);border-color:transparent}
+.dexcat{margin-top:18px}.dexcat h2{font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:7px}.dexcat .cnt{font-size:12px;color:#8c7c6c;font-weight:600;margin-left:auto}
+.dexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px}
+.dcard{position:relative;background:#ffffff0a;border:1px solid #ffffff1c;border-radius:13px;padding:12px;cursor:pointer;transition:all .15s;opacity:.5}
+.dcard.got{opacity:1;border-color:#27c09355;background:#27c0930f}
+.dcard:hover{border-color:var(--amber);transform:translateY(-2px)}
+.dcard .dk{font-size:20px;font-weight:800;white-space:nowrap}.dcard .dr{font-size:11px;color:#d98a3c;font-weight:700;margin-top:2px}.dcard .de{font-size:11.5px;color:#cbb8a6;margin-top:1px}
+.dcard .dxe{display:none;font-size:11.5px;color:#9b8a7a;margin-top:8px;border-top:1px solid #ffffff14;padding-top:7px;line-height:1.5}
+.dcard.open .dxe{display:block}
+.dcard .chk{position:absolute;top:7px;right:9px;color:#27c093;font-weight:800;font-size:13px}
+.langsel{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.langbtn{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid #ffffff22;background:#ffffff0d;color:#cbb8a6;cursor:pointer;transition:all .15s}
+.langbtn.on{background:linear-gradient(135deg,#FF8C00,#E8546B);color:#fff;border-color:transparent}
+/* 3D 한글 비 (타이틀 인트로) */
+#rain{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;perspective:700px}
+.rdrop{position:absolute;top:0;font-weight:800;white-space:nowrap;text-align:center;will-change:transform,opacity;animation:rfall linear infinite;text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.rdrop .rr{display:block;font-size:.46em;font-weight:600;opacity:.82;letter-spacing:.03em}
+@keyframes rfall{0%{transform:translateY(-16vh) translateZ(var(--z)) rotateX(0deg) rotateZ(0deg);opacity:0}12%{opacity:var(--o)}86%{opacity:var(--o)}100%{transform:translateY(118vh) translateZ(var(--z)) rotateX(400deg) rotateZ(8deg);opacity:0}}
+@media(max-width:480px){h1{font-size:25px}.hanbig{font-size:64px}}
+</style></head>
+<body>
+<div id="app">
+  <div class="bar">
+    <span class="logo">🐯 K-TOWN</span>
+    <span class="prog"><i id="prog"></i></span>
+    <span class="me" id="me"></span>
+  </div>
+  <div class="scene" id="scene"></div>
+</div>
+<div class="toast" id="toast"></div>
+<canvas id="cardCanvas" width="900" height="1125" style="display:none"></canvas>
+<div class="sheet" id="sheet"><div class="sheetc" id="sheetc"></div></div>
+
+<script src="worddex.js"></script>
+<script src="i18n.js"></script>
+<script src="audio_map.js"></script>
+<script>
+/* ===== Hangul transliterator (shared with namecard) ===== */
+const CHO=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JUNG=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+const JONG=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+function compose(c,j,k){const ci=CHO.indexOf(c),ji=JUNG.indexOf(j),ki=k?JONG.indexOf(k):0;
+  if(ci<0||ji<0)return(c||'')+(j||'');return String.fromCharCode(0xAC00+ci*588+ji*28+(ki<0?0:ki));}
+const FINAL={'ㄴ':1,'ㅁ':1,'ㅇ':1,'ㄹ':1,'ㄱ':1,'ㅂ':1};
+const C={b:'ㅂ',c:'ㅋ',d:'ㄷ',f:'ㅍ',g:'ㄱ',h:'ㅎ',j:'ㅈ',k:'ㅋ',l:'ㄹ',m:'ㅁ',n:'ㄴ',p:'ㅍ',q:'ㅋ',r:'ㄹ',s:'ㅅ',t:'ㅌ',v:'ㅂ',w:'ㅇ',x:'ㅋ',z:'ㅈ'};
+const V={a:'ㅏ',e:'ㅔ',i:'ㅣ',o:'ㅗ',u:'ㅜ'};
+const TRAIL={b:'브',c:'크',d:'드',f:'프',g:'그',j:'지',k:'크',p:'프',q:'크',s:'스',t:'트',v:'브',x:'크',z:'즈'};
+function attachJong(s,k){const l=s[s.length-1],code=l.charCodeAt(0)-0xAC00;
+  if(code>=0&&code<11172){const ci=(code/588)|0,ji=((code%588)/28)|0,ki=code%28;
+    if(ki===0)return s.slice(0,-1)+String.fromCharCode(0xAC00+ci*588+ji*28+JONG.indexOf(k));}return s+k;}
+function canJong(s){const l=s[s.length-1],code=l.charCodeAt(0)-0xAC00;if(code<0||code>=11172)return false;return code%28===0;}
+function yC(v){return({'ㅏ':'ㅑ','ㅓ':'ㅕ','ㅗ':'ㅛ','ㅜ':'ㅠ','ㅔ':'ㅖ','ㅐ':'ㅒ','ㅣ':'ㅣ'})[v]||v;}
+function wC(v){return({'ㅏ':'ㅘ','ㅓ':'ㅝ','ㅔ':'ㅞ','ㅐ':'ㅙ','ㅣ':'ㅟ','ㅗ':'ㅘ'})[v]||v;}
+function transWord(w){
+  w=w.replace(/chr/g,'kr').replace(/sch/g,'sk');
+  w=w.replace(/tch/g,'ch').replace(/dge/g,'j').replace(/ck/g,'k').replace(/ph/g,'f')
+     .replace(/sh/g,'S').replace(/ch/g,'C').replace(/th/g,'s').replace(/ng\b/g,'N')
+     .replace(/oo/g,'u').replace(/ee/g,'i').replace(/ea/g,'i').replace(/oa/g,'o')
+     .replace(/ai/g,'A').replace(/ay/g,'A').replace(/ei/g,'A').replace(/ie/g,'i')
+     .replace(/ou/g,'W').replace(/qu/g,'kw');
+  w=w.replace(/c([eiy])/g,'s$1');
+  if(w.length>1)w=w[0]+w.slice(1).replace(/h/g,'');
+  w=w.replace(/([bcdfgjklmnpqrstvxzCS])e$/,'$1');
+  w=w.replace(/([a-zA-Z])\1+/g,'$1');
+  const T=[];
+  for(let i=0;i<w.length;i++){const ch=w[i];
+    if('aeiou'.includes(ch))T.push({t:'V',v:V[ch]});
+    else if(ch==='A')T.push({t:'V',v:'ㅔ',pre:'이'});
+    else if(ch==='W')T.push({t:'V',v:'ㅏ',post:'우'});
+    else if(ch==='S')T.push({t:'C',c:'ㅅ'});
+    else if(ch==='C')T.push({t:'C',c:'ㅊ'});
+    else if(ch==='N')T.push({t:'F'});
+    else if(ch==='w')T.push({t:'C',c:'ㅇ',w:true});
+    else if(ch==='y'){const nx=w[i+1];T.push(nx&&'aeiou'.includes(nx)?{t:'Y'}:{t:'V',v:'ㅣ'});}
+    else if(C[ch])T.push({t:'C',c:C[ch],ch});}
+  let o='';
+  for(let i=0;i<T.length;i++){const tk=T[i];
+    if(tk.t==='V'){o+=compose('ㅇ',tk.v);if(tk.pre)o+=tk.pre;if(tk.post)o+=tk.post;}
+    else if(tk.t==='Y'){const nv=T[i+1];if(nv&&nv.t==='V'){o+=compose('ㅇ',yC(nv.v));i++;}else o+='이';}
+    else if(tk.t==='C'){const nx=T[i+1];
+      if(nx&&nx.t==='V'){let v=nx.v;if(tk.w)v=wC(v);o+=compose(tk.c,v);if(nx.pre)o+=nx.pre;if(nx.post)o+=nx.post;i++;continue;}
+      if(nx&&nx.t==='Y'){const nv=T[i+2];if(nv&&nv.t==='V'){o+=compose(tk.c,yC(nv.v));i+=2;continue;}}
+      if(tk.ch&&FINAL[tk.c]&&o.length&&canJong(o))o=attachJong(o,tk.c);
+      else if(tk.ch&&TRAIL[tk.ch])o+=TRAIL[tk.ch];else o+=compose(tk.c,'ㅡ');}
+    else if(tk.t==='F'){if(o.length&&canJong(o))o=attachJong(o,'ㅇ');else o+='응';}}
+  return o;
+}
+function translit(s){s=s.toLowerCase().replace(/[^a-z ]/g,'');if(!s.trim())return'';
+  return s.split(/\s+/).filter(Boolean).map(transWord).join(' ');}
+
+/* ===== audio (MVP: Web Speech ko-KR; edge-tts 사전생성으로 업그레이드 예정) ===== */
+function say(t){
+  if(typeof AUDIO!=='undefined' && AUDIO[t]){try{const a=new Audio('audio/'+AUDIO[t]);a.play();return;}catch(e){}}
+  try{const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+
+/* ===== game state ===== */
+const S={name:'',han:'',step:0,total:11,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false};
+const $=id=>document.getElementById(id);
+const scene=$('scene');
+function setProg(n){S.step=n;$('prog').style.width=(n/S.total*100)+'%';$('me').innerHTML=(S.streak?'🔥 '+S.streak+' &nbsp; ':'')+'⭐ '+S.xp;}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1600);}
+/* ===== juice: sound · confetti · popup · streak/XP state ===== */
+let AC;function actx(){try{return AC||(AC=new (window.AudioContext||window.webkitAudioContext)());}catch(e){return null;}}
+function beep(f,d,t='sine',v=.14){const c=actx();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(c.destination);const now=c.currentTime;o.start(now);g.gain.exponentialRampToValueAtTime(.0001,now+d);o.stop(now+d);}
+function sndCorrect(combo){beep(620+combo*50,.1,'triangle');setTimeout(()=>beep(860+combo*50,.12,'triangle'),80);}
+function sndWrong(){beep(150,.2,'sawtooth',.1);}
+function sndStamp(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.22,'triangle',.16),i*85));}
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}}
+const CFC=['#FF8C00','#E8546B','#27c093','#3b82f6','#f59e0b','#fff','#ffd166'];
+const CFJAMO=['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ','ㅏ','ㅓ','ㅗ','ㅜ','ㅡ','ㅣ'];
+function confetti(x,y,n=26){for(let i=0;i<n;i++){const d=document.createElement('div');d.className='confetti';
+  d.style.left=x+'px';d.style.top=y+'px';
+  if(i%2){d.classList.add('jamo');d.textContent=CFJAMO[Math.floor(Math.random()*CFJAMO.length)];d.style.color=CFC[i%CFC.length];}
+  else{d.style.background=CFC[i%CFC.length];}
+  const a=Math.PI*2*Math.random(),s=70+Math.random()*180;
+  d.style.setProperty('--dx',(Math.cos(a)*s)+'px');d.style.setProperty('--dy',(Math.sin(a)*s-90)+'px');
+  d.style.setProperty('--rot',(Math.random()*720-360)+'deg');
+  document.body.appendChild(d);setTimeout(()=>d.remove(),950);}}
+function popup(t){const e=document.createElement('div');e.className='popup';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),1100);}
+function flash(){const e=document.createElement('div');e.className='flash';document.body.appendChild(e);setTimeout(()=>e.remove(),500);}
+function saveState(){try{localStorage.setItem('ktown',JSON.stringify({xp:S.xp,streak:S.streak,last:S.last,collected:S.collected,achv:S.achv,bkPrompted:S.bkPrompted}));}catch(e){}}
+function loadState(){try{const s=JSON.parse(localStorage.getItem('ktown')||'{}');S.xp=s.xp||0;S.streak=s.streak||0;S.last=s.last||'';S.collected=s.collected||[];S.achv=s.achv||[];S.bkPrompted=s.bkPrompted||false;}catch(e){}}
+function touchStreak(){const d=new Date(),today=d.toISOString().slice(0,10),y=new Date(d.getTime()-864e5).toISOString().slice(0,10);
+  if(S.last!==today){S.streak=(S.last===y)?S.streak+1:1;S.last=today;saveState();}}
+/* ===== Word Dex collection + achievements (재미·성취) ===== */
+function norm(s){return s.replace(/\s/g,'');}
+function allWords(){return (typeof WORDDEX!=='undefined'?WORDDEX:[]).flatMap(c=>c.items);}
+function isGot(kr){return S.collected.some(c=>norm(c)===norm(kr));}
+function dexGot(){return allWords().filter(w=>isGot(w.kr)).length;}
+function catDone(name){const c=(typeof WORDDEX!=='undefined'?WORDDEX:[]).find(x=>x.cat.includes(name));return c&&c.items.every(i=>isGot(i.kr));}
+const ACHV=[
+  {id:'first',n:'First Word 🐣',d:()=>dexGot()>=1},
+  {id:'ten',n:'Getting Fluent 📚',d:()=>dexGot()>=10},
+  {id:'foodie',n:'Foodie 🍜',d:()=>catDone('Food')},
+  {id:'survivor',n:'Survivor 🛟',d:()=>catDone('Survival')},
+  {id:'fan',n:'Ultimate Fan 💜',d:()=>catDone('K-pop')},
+  {id:'master',n:'Hangul Master 👑',d:()=>allWords().length&&dexGot()>=allWords().length},
+];
+function checkAchv(){ACHV.forEach(a=>{if(!S.achv.includes(a.id)&&a.d()){S.achv.push(a.id);saveState();
+  setTimeout(()=>{popup('🏆 '+a.n);flash();sndStamp();confetti(innerWidth/2,innerHeight*0.35,44);},250);}});}
+function addCollected(kr){if(!isGot(kr)){S.collected.push(kr);saveState();checkAchv();return true;}return false;}
+loadState();
+
+/* ===== scenes ===== */
+/* ===== 3D 한글 비 (부산 도시·공연장 + 음식 + K-pop) ===== */
+const RAINWORDS=[['부산','Busan'],['벡스코','BEXCO'],['사직운동장','Sajik'],['해운대','Haeundae'],['광안리','Gwangalli'],['서면','Seomyeon'],['전포동','Jeonpo'],['감천문화마을','Gamcheon'],['서울','Seoul'],['지하철','subway'],['버스','bus'],['교통카드','T-money'],['노래방','karaoke'],['비빔밥','bibimbap'],['김밥','gimbap'],['라면','ramyeon'],['떡볶이','tteokbokki'],['불고기','bulgogi'],['호떡','hotteok'],['김치','kimchi'],['커피','coffee'],['안녕','annyeong'],['사랑해','saranghae'],['콘서트','concert'],['화이팅','hwaiting'],['최고','choego'],['감사','thanks'],['대박','daebak'],['한글','Hangeul'],['소주','soju']];
+const RAINCOL=['#FF8C00','#E8546B','#27c093','#ffd166','#ffffff','#8ab4ff'];
+function startRain(){if(document.getElementById('rain'))return;const r=document.createElement('div');r.id='rain';
+  for(let i=0;i<24;i++){const s=document.createElement('span');s.className='rdrop';
+    const w=RAINWORDS[Math.floor(Math.random()*RAINWORDS.length)];s.innerHTML=w[0]+'<span class="rr">'+w[1]+'</span>';
+    s.style.left=(Math.random()*94)+'%';
+    s.style.setProperty('--z',(-280+Math.random()*340).toFixed(0)+'px');
+    s.style.setProperty('--o',(0.18+Math.random()*0.5).toFixed(2));
+    s.style.fontSize=(15+Math.random()*28).toFixed(0)+'px';
+    s.style.color=RAINCOL[Math.floor(Math.random()*RAINCOL.length)];
+    s.style.animationDuration=(6+Math.random()*7).toFixed(1)+'s';
+    s.style.animationDelay=(-Math.random()*9).toFixed(1)+'s';
+    r.appendChild(s);}
+  document.body.appendChild(r);}
+function stopRain(){const r=document.getElementById('rain');if(r)r.remove();}
+function title(){touchStreak();startRain();setProg(0);scene.innerHTML=`
+  <div class="langsel" id="langsel"></div>
+  <h1>${t('titleH1')}</h1>
+  <p class="lead">${t('titleLead')}</p>
+  <div class="spacer"></div>
+  <button class="btn" id="go">${t('start')}</button>
+  <p class="legal">A fan-made Korean learning game. Not affiliated with any artist, label or brand.</p>`;
+  renderLangSel();
+  $('go').onclick=enterName;
+}
+function renderLangSel(){const el=$('langsel');if(!el)return;
+  el.innerHTML=LANGS.map(l=>`<button class="langbtn${getLang()===l.code?' on':''}" data-l="${l.code}">${l.flag} ${l.label}</button>`).join('');
+  el.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{setLang(b.dataset.l);title();});}
+function enterName(){stopRain();setProg(1);scene.innerHTML=`
+  <h1>${t('whoH1')}</h1>
+  <p class="lead">${t('whoLead')}</p>
+  <input class="name" id="nm" placeholder="${t('namePh')}" maxlength="20" autocomplete="off">
+  <div id="prev"></div>
+  <div class="spacer"></div>
+  <button class="btn" id="go" disabled>${t('next')}</button>`;
+  const nm=$('nm'),go=$('go'),prev=$('prev');
+  nm.oninput=()=>{const v=nm.value.trim();
+    const h = /[가-힣]/.test(v) ? v : (translit(v)||v);   // 한글직접→그대로 · 영문→변환 · 그외→입력값
+    if(v){prev.innerHTML=`<div class="hanbig">${h}</div><p class="cap">🔊 tap to hear</p>`;
+      prev.querySelector('.hanbig').onclick=()=>say(h);go.disabled=false;S.name=v;S.han=h;}
+    else{prev.innerHTML='';go.disabled=true;}};
+  nm.focus();
+  go.onclick=()=>{say(S.han);startMission(0);};
+}
+/* ===== missions (data-driven — SEO 장소 페이지도 이 데이터에서 생성) ===== */
+const MISSIONS=[
+  {id:'busan-bexco',emoji:'🚖',title:'Get to the <span class="a">concert</span>',place:'BEXCO, Busan',
+   lead:'Your taxi asks where to go. The venue is <b>BEXCO</b> in Busan (부산). Learn these, then read the sign.',
+   lesson:[{h:'부',r:'bu'},{h:'산',r:'san'},{h:'벡',r:'bek'},{h:'스',r:'seu'},{h:'코',r:'ko'}],
+   rounds:[{q:'Tap the sign that reads <b>벡스코</b> (BEXCO)',
+     choices:[{kr:'벡스코',en:'BEXCO',ok:true},{kr:'백화점',en:'Department store'},{kr:'세관',en:'Customs'}]}],
+   stamp:'부산 벡스코'},
+  {id:'convenience-store',emoji:'🏪',title:'Buy some <span class="a">water</span>',place:'Convenience store',
+   lead:'You\'re thirsty. Find the <b>편의점</b> (convenience store) and read the price of water (물).',
+   lesson:[{h:'편',r:'pyeon'},{h:'의',r:'ui'},{h:'점',r:'jeom'},{h:'물',r:'mul · water'},{h:'천',r:'cheon · 1,000'},{h:'원',r:'won'}],
+   rounds:[
+     {q:'Which sign is the <b>편의점</b> (convenience store)?',
+      choices:[{kr:'편의점',en:'Convenience store',ok:true},{kr:'약국',en:'Pharmacy'},{kr:'은행',en:'Bank'}]},
+     {q:'Water (물) is <b>천 원</b>. Tap <b>천원</b> (1,000 won)',
+      choices:[{kr:'천원',en:'1,000 won',ok:true},{kr:'만원',en:'10,000 won'},{kr:'백원',en:'100 won'}]}],
+   stamp:'편의점 물'},
+  {id:'restaurant-food',emoji:'🍜',title:'Order <span class="a">Korean food</span>',place:'Korean restaurant',
+   lead:'You\'re starving. Read the menu and order like a local — Korea\'s most-loved dishes + the words you\'ll use every day.',
+   lesson:[{h:'김밥',r:'gimbap'},{h:'라면',r:'ramyeon'},{h:'비빔밥',r:'bibimbap'},{h:'불고기',r:'bulgogi'},{h:'주세요',r:'juseyo · please'},{h:'맛있어요',r:'masisseoyo · delicious'}],
+   rounds:[
+     {q:'You want <b>비빔밥</b> (bibimbap). Tap it on the menu.',
+      choices:[{kr:'비빔밥',en:'Bibimbap',ok:true},{kr:'김밥',en:'Gimbap'},{kr:'라면',en:'Ramyeon'}]},
+     {q:'To order, you say "please give me". Tap <b>주세요</b>.',
+      choices:[{kr:'주세요',en:'Please give me',ok:true},{kr:'안녕',en:'Hi / Bye'},{kr:'얼마예요',en:'How much?'}]}],
+   stamp:'식당 비빔밥'},
+];
+const FREE_MISSIONS=3;
+function startMission(idx){S.mi=idx;const m=MISSIONS[idx];setProg(2+idx*3);
+  scene.innerHTML=`<h1>${m.emoji} ${mt(m.id,'title')||m.title}</h1>
+  <p class="lead">${mt(m.id,'lead')||m.lead}</p>
+  <p class="cap" style="text-align:left;color:#8c7c6c;margin-top:6px">Mission ${idx+1} · ${t('learnTiles')}</p>
+  <div class="tiles" id="tiles"></div>
+  <div class="spacer"></div>
+  <button class="btn" id="go" disabled>I can read these →</button>`;
+  const tiles=$('tiles'),done=new Set();
+  m.lesson.forEach((x,i)=>{addCollected(x.h);const d=document.createElement('div');d.className='tile'+(x.h.length>=3?' long':'');
+    d.innerHTML=`<div class="h">${x.h}</div><div class="r">${x.r}</div>`;
+    d.onclick=()=>{say(x.h);d.classList.add('done');done.add(i);if(done.size===m.lesson.length)$('go').disabled=false;};
+    tiles.appendChild(d);});
+  $('go').onclick=()=>runRound(idx,0);
+}
+function runRound(idx,ri){const m=MISSIONS[idx],r=m.rounds[ri];setProg(2+idx*3+1);
+  const ch=r.choices.slice();
+  for(let i=ch.length-1;i>0;i--){const j=(i*7+ri+3)%(i+1);[ch[i],ch[j]]=[ch[j],ch[i]];}
+  scene.innerHTML=`<h1>${m.emoji} ${mt(m.id,'title')||m.title}</h1>
+  <p class="lead">${mtQ(m.id,ri)||r.q}</p>
+  <p class="q">🔊 tap the speaker to listen${m.rounds.length>1?` · step ${ri+1}/${m.rounds.length}`:''}</p>
+  <div class="signs" id="signs"></div>`;
+  const wrap=$('signs');
+  ch.forEach(c=>{const el=document.createElement('div');el.className='sign';
+    el.innerHTML=`<span class="kr">${c.kr}</span><span class="en">${c.en}</span><span class="spk">🔊</span>`;
+    el.querySelector('.spk').onclick=e=>{e.stopPropagation();say(c.kr);};
+    el.onclick=()=>{
+      const rc=el.getBoundingClientRect(),cx=rc.left+rc.width/2,cy=rc.top+rc.height/2;
+      if(c.ok){el.classList.add('right');say(c.kr);addCollected(c.kr);
+        S.combo++;const gain=10*S.combo,prevLv=Math.floor(S.xp/100);S.xp+=gain;const lv=Math.floor(S.xp/100);
+        confetti(cx,cy,28);sndCorrect(S.combo);buzz(30);setProg(S.step);
+        popup(S.combo>=2?('🔥 COMBO x'+S.combo+'  +'+gain):('+'+gain+' XP'));
+        if(lv>prevLv){flash();sndStamp();setTimeout(()=>popup('⭐ LEVEL '+(lv+1)+'!'),300);}
+        saveState();
+        setTimeout(()=>{ri+1<m.rounds.length?runRound(idx,ri+1):passport(idx);},950);}
+      else{el.classList.add('wrong');S.combo=0;say(c.kr);sndWrong();buzz(40);
+        toast('That one reads "'+c.kr+'" 🔊 — find the right sign');setTimeout(()=>el.classList.remove('wrong'),900);}
+    };wrap.appendChild(el);});
+}
+function passport(idx){const m=MISSIONS[idx];setProg(2+idx*3+2);
+  const more=idx+1<FREE_MISSIONS;
+  scene.innerHTML=`<h1>🪪 <span class="a">${t('ppTitle')}</span></h1>
+  <div class="passport">
+    <div class="ttl">K-TOWN · ENTRY STAMP</div>
+    <div class="nm">${S.han}</div>
+    <div class="cap" style="color:#aeb8e6">${S.name.toLowerCase()}</div>
+    <div class="stamp">${m.stamp} ✓ ENTERED</div>
+  </div>
+  <p class="lead" style="text-align:center;margin-top:16px">${t('ppMsg')} <span style="opacity:.7">${m.place}</span></p>
+  <div class="spacer"></div>
+  <button class="btn" id="share">${t('sharePp')}</button>
+  <button class="btn ghost" id="dexbtn">${t('dexBtn')} (${dexGot()}/${allWords().length})</button>
+  <button class="btn ghost" id="next">${more?t('nextMission'):t('seeNext')}</button>`;
+  $('share').onclick=shareCard;
+  $('dexbtn').onclick=dex;
+  $('next').onclick=()=>{
+    if(!more){paywall();return;}
+    if(idx>=1 && !S.bkPrompted){S.bkPrompted=true;saveState();backupForm(()=>startMission(idx+1));}
+    else startMission(idx+1);
+  };
+  setTimeout(()=>{const st=document.querySelector('.stamp');if(st){const r=st.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2,46);}sndStamp();buzz(60);},300);
+}
+/* Paywall placeholder (LemonSqueezy 연결은 마지막 단계) */
+function paywall(){setProg(6);
+  scene.innerHTML=`<h1>${t('pwH1')}</h1>
+  <p class="lead">${t('pwLead')}</p>
+  <div class="passport" style="background:linear-gradient(150deg,#FF8C00,#E8546B)">
+    <div class="ttl">FULL GAME · ONE PAYMENT</div>
+    <div class="nm">$9.99</div>
+    <div class="cap" style="color:#fff;opacity:.9">${t('pwUnit')}</div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="buy">${t('pwBuy')}</button>
+  <button class="btn ghost" id="again">${t('replay')}</button>
+  <p class="legal">결제는 LemonSqueezy 연동 예정(맨 마지막 단계). L4 = CEO 승인 영역.</p>`;
+  $('buy').onclick=()=>toast('LemonSqueezy 체크아웃 연결 예정 (결제는 마지막 단계)');
+  $('again').onclick=title;
+}
+/* ===== SNS 공유 (바이럴) — 웹 인텐트 8종 + 네이티브 공유 + 저장 ===== */
+const SITE_URL='https://aiaijungle.github.io/ktown/game'; // 배포 URL (GitHub Pages) 확정 후 교체
+const e=encodeURIComponent;
+function roundRectC(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function renderCard(){const cv=$('cardCanvas'),x=cv.getContext('2d'),W=900,H=1125;
+  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#1c2f6b');g.addColorStop(1,'#2a1d6b');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.fillStyle='rgba(255,255,255,.12)';x.beginPath();x.arc(W*.82,H*.13,210,0,7);x.fill();x.textAlign='center';
+  x.font='700 30px Pretendard,sans-serif';x.fillStyle='#aeb8e6';x.fillText('K-TOWN · ENTRY STAMP',W/2,92);
+  x.font='84px serif';x.fillText('🪪',W/2,H*.25);
+  x.font='800 132px Pretendard,"Malgun Gothic",sans-serif';x.fillStyle='#fff';x.fillText(S.han,W/2,H*.46);
+  x.font='600 36px Pretendard,sans-serif';x.fillStyle='#aeb8e6';x.fillText(S.name.toLowerCase(),W/2,H*.53);
+  x.save();x.translate(W/2,H*.69);x.rotate(-.12);x.strokeStyle='#27c093';x.lineWidth=5;roundRectC(x,-250,-46,500,92,16);x.stroke();
+  x.fillStyle='#27c093';x.font='800 38px Pretendard,"Malgun Gothic",sans-serif';x.fillText(MISSIONS[S.mi].stamp+' ✓',0,14);x.restore();
+  x.font='700 30px Pretendard,sans-serif';x.fillStyle='#fff';x.fillText('I can read Korean 🇰🇷',W/2,H-92);
+  x.font='400 26px Pretendard,sans-serif';x.fillStyle='#aeb8e6';x.fillText('ktown-korean.com',W/2,H-50);
+  return cv;}
+const PLATS=[
+  {id:'x',name:'𝕏 Post',cls:'x',u:(t,u)=>`https://twitter.com/intent/tweet?text=${e(t)}&url=${e(u)}&hashtags=LearnKorean,Hangul,KTown,KPop`},
+  {id:'wa',name:'WhatsApp',u:(t,u)=>`https://wa.me/?text=${e(t+' '+u)}`},
+  {id:'tg',name:'Telegram',u:(t,u)=>`https://t.me/share/url?url=${e(u)}&text=${e(t)}`},
+  {id:'line',name:'LINE',u:(t,u)=>`https://social-plugins.line.me/lineit/share?url=${e(u)}`},
+  {id:'reddit',name:'Reddit',u:(t,u)=>`https://www.reddit.com/submit?url=${e(u)}&title=${e(t)}`},
+  {id:'threads',name:'Threads',u:(t,u)=>`https://www.threads.net/intent/post?text=${e(t+' '+u)}`},
+  {id:'fb',name:'Facebook',u:(t,u)=>`https://www.facebook.com/sharer/sharer.php?u=${e(u)}`},
+  {id:'pin',name:'Pinterest',u:(t,u)=>`https://www.pinterest.com/pin/create/button/?url=${e(u)}&description=${e(t)}`},
+];
+function shareText(){return `I just read Korean and entered ${MISSIONS[S.mi].place}! My name in 한글: ${S.han} 🇰🇷 Can you read yours?`;}
+function shareUrl(){return `${SITE_URL}/?ref=${e(S.han)}`;}
+async function shareCard(){const cv=renderCard(),text=shareText(),url=shareUrl();
+  try{const blob=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([blob],'ktown-passport.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text,url});return;}}catch(err){}
+  openSheet(cv,text,url);}
+function openSheet(cv,text,url){const data=cv.toDataURL('image/png');
+  const native=navigator.share?`<button class="sbtn" id="snative" style="grid-column:1/-1;background:linear-gradient(135deg,#FF8C00,#E8546B);border:none">📲 Share to any app — Instagram · TikTok · Kakao…</button>`:'';
+  $('sheetc').innerHTML=`<h3>Share your Korean passport 📸</h3>
+    <p class="ps">Show friends you can read Korean — invite them to try (그들도 자기 이름 한글로!).</p>
+    <img class="shareImg" src="${data}" alt="Korean passport">
+    <div class="srow">${native}
+      ${PLATS.map(p=>`<button class="sbtn ${p.cls||''}" data-id="${p.id}">${p.name}</button>`).join('')}
+      <button class="sbtn" id="scopy">🔗 Copy link</button>
+      <button class="sbtn" id="sdl">⬇️ Save image</button>
+    </div>
+    <button class="sclose" id="sclose">Close</button>`;
+  $('sheet').classList.add('on');
+  if(native)$('snative').onclick=async()=>{try{const b=await new Promise(r=>cv.toBlob(r,'image/png'));const f=new File([b],'ktown-passport.png',{type:'image/png'});(navigator.canShare&&navigator.canShare({files:[f]}))?await navigator.share({files:[f],text,url}):await navigator.share({text,url});}catch(err){}};
+  $('sheetc').querySelectorAll('[data-id]').forEach(b=>{const p=PLATS.find(x=>x.id===b.dataset.id);b.onclick=()=>window.open(p.u(text,url),'_blank','noopener');});
+  $('scopy').onclick=async()=>{try{await navigator.clipboard.writeText(text+' '+url);toast('Link copied! 🔗');}catch(err){toast('Copy failed');}};
+  $('sdl').onclick=()=>{const a=document.createElement('a');a.download='ktown-passport.png';a.href=data;a.click();toast('Saved — post on Instagram/TikTok! 📸');};
+  $('sclose').onclick=()=>$('sheet').classList.remove('on');}
+/* ===== Word Dex (collection · achievement) ===== */
+function dex(){const total=allWords().length,got=dexGot();
+  scene.innerHTML=`<div class="langsel" id="langsel"></div><h1>📖 <span class="a">${t('dexTitle')}</span></h1>
+    <p class="lead">Your Korean collection — tap a card to hear it 🔊 + collect it. Tap again to flip for a real sentence.</p>
+    <div class="dexbar"><i id="dexfill" style="width:${total?got/total*100:0}%"></i></div>
+    <p class="cap" style="text-align:left;color:#8c7c6c"><b id="dexn" style="color:#27c093">${got}</b> / ${total} ${t('collected')}</p>
+    <div class="achv" id="achv"></div>
+    <div id="dexwrap"></div>
+    <button class="btn" id="share">${t('shareName')}</button>
+    <button class="btn ghost" id="backup">${t('backupBtn')}</button>
+    <button class="btn ghost" id="back">${t('back')}</button>`;
+  renderLangSel();
+  $('backup').onclick=backupForm;
+  const ab=$('achv');ACHV.forEach(a=>{const b=document.createElement('span');b.className='badge'+(S.achv.includes(a.id)?' on':'');b.textContent=a.n;ab.appendChild(b);});
+  const w=$('dexwrap');
+  WORDDEX.forEach(cat=>{const sec=document.createElement('div');sec.className='dexcat';
+    sec.innerHTML=`<h2>${cat.cat}<span class="cnt">${cat.items.filter(i=>isGot(i.kr)).length}/${cat.items.length}</span></h2>`;
+    const grid=document.createElement('div');grid.className='dexgrid';
+    cat.items.forEach(it=>{const card=document.createElement('div');card.className='dcard'+(isGot(it.kr)?' got':'');
+      card.innerHTML=`<div class="dk">${it.kr}</div><div class="dr">${it.r}</div><div class="de">${mean(it.kr)||it.en}</div><div class="dxe">${it.ex}<br><i>${exT(it.kr)||it.exen}</i></div><span class="chk">${isGot(it.kr)?'✓':''}</span>`;
+      card.onclick=()=>{say(it.kr);card.classList.toggle('open');
+        if(addCollected(it.kr)){card.classList.add('got');card.querySelector('.chk').textContent='✓';
+          const r=card.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2,14);sndCorrect(1);
+          sec.querySelector('.cnt').textContent=cat.items.filter(i=>isGot(i.kr)).length+'/'+cat.items.length;
+          const ng=dexGot();$('dexn').textContent=ng;$('dexfill').style.width=(ng/total*100)+'%';}
+      };grid.appendChild(card);});
+    sec.appendChild(grid);w.appendChild(sec);});
+  $('back').onclick=()=>S.han?passport(S.mi):title();
+  $('share').onclick=()=>{const cv=renderCard();openSheet(cv,`I can read & understand ${dexGot()} Korean words after playing K-Town! 🇰🇷 Can you read yours?`,shareUrl());};
+}
+/* ===== 외국인 DB 캡처 — "진도 백업" 동의 훅 (시황 설계: 로컬=진도, 서버=동의기반 이메일) ===== */
+const BACKUP_ENDPOINT=''; // ⚠️ CEO: Supabase Edge Function/REST (foreign_leads insert) URL. 비어있으면 로컬만 저장.
+/* ===== 국적/방문자 추적 (익명 집계 — 국가코드·언어·유입 ref. PII 없음) ===== */
+const VISIT_ENDPOINT=''; // ⚠️ CEO: Supabase visitors insert URL. 비어있으면 로컬 집계만.
+function trackVisit(){
+  const loc=navigator.language||'';
+  const country=(loc.split('-')[1]||'').toUpperCase();          // 브라우저 로캘의 국가코드(MX·JP·TW…)
+  let tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone;}catch(e){}  // 타임존=국가 보조신호
+  const v={country,locale:loc,gameLang:getLang(),tz,ref:(new URLSearchParams(location.search).get('ref')||''),ts:new Date().toISOString()};
+  try{const t=JSON.parse(localStorage.getItem('ktownVisits')||'{}');const k=country||'??';t[k]=(t[k]||0)+1;localStorage.setItem('ktownVisits',JSON.stringify(t));}catch(e){}
+  try{if(VISIT_ENDPOINT)fetch(VISIT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(v),keepalive:true});}catch(e){}
+}
+function backupForm(onDone){
+  $('sheetc').innerHTML=`<h3>${t('backupTitle')}</h3><p class="ps">${t('backupBlurb')}</p>
+    <input id="bkEmail" type="email" autocomplete="email" placeholder="${t('emailPh')}" style="width:100%;font-size:16px;padding:13px;border-radius:12px;border:1px solid #ffffff26;background:#ffffff10;color:#fff;outline:none;margin-bottom:10px">
+    <label style="display:flex;gap:8px;font-size:12px;color:#cbb8a6;margin-bottom:14px;line-height:1.45;cursor:pointer"><input type="checkbox" id="bkConsent" style="margin-top:2px;flex:none">${t('consent')}</label>
+    <button class="btn" id="bkGo" style="width:100%">${t('backupGo')}</button>
+    <button class="sclose" id="bkClose">${onDone?t('later'):t('back')}</button>`;
+  $('sheet').classList.add('on');
+  $('bkClose').onclick=()=>{$('sheet').classList.remove('on');if(onDone)onDone();};
+  $('bkGo').onclick=async()=>{
+    const email=$('bkEmail').value.trim(),consent=$('bkConsent').checked;
+    if(!/.+@.+\..+/.test(email)){toast('Enter a valid email');return;}
+    if(!consent){toast('Please agree to continue');return;}
+    const lead={email,lang:getLang(),xp:S.xp,streak:S.streak,words:dexGot(),consent:true,source:'progress_backup',ts:new Date().toISOString()};
+    try{localStorage.setItem('ktownLead',JSON.stringify(lead));}catch(e){}      // 로컬 백업
+    try{ if(BACKUP_ENDPOINT) await fetch(BACKUP_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(lead)});}catch(e){} // 서버(동의기반)
+    toast(t('backupOk'));setTimeout(()=>{$('sheet').classList.remove('on');if(onDone)onDone();},1300);
+  };
+}
+/* ===== PWA: 오프라인 + 홈화면 설치 (전자책처럼 폰에 소장) ===== */
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;
+  if(document.getElementById('installBtn'))return;
+  const b=document.createElement('button');b.id='installBtn';b.textContent=t('install');
+  b.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:40;background:linear-gradient(135deg,#FF8C00,#E8546B);color:#fff;border:none;font-weight:800;padding:11px 20px;border-radius:99px;box-shadow:0 6px 20px #0008;cursor:pointer;font-size:14px';
+  b.onclick=async()=>{b.remove();deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;};
+  document.body.appendChild(b);});
+/* iOS 사파리: beforeinstallprompt 미지원 → "홈 화면에 추가" 안내 (시황 권고) */
+(function(){const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  const standalone=window.navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+  if(isIOS&&!standalone&&!localStorage.getItem('iosHint')){window.addEventListener('load',()=>setTimeout(()=>{
+    const b=document.createElement('div');b.id='iosHint';
+    b.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:40;background:#161019;border:1px solid #ffffff22;color:#fff;font-size:13px;font-weight:600;padding:11px 16px;border-radius:14px;box-shadow:0 6px 20px #0009;max-width:92%;text-align:center';
+    b.innerHTML='📲 Keep K-Town on your phone: tap <b>Share</b> ⬆️ then <b>Add to Home Screen</b> <span id="iosX" style="opacity:.6;margin-left:8px;cursor:pointer">✕</span>';
+    document.body.appendChild(b);document.getElementById('iosX').onclick=()=>{b.remove();localStorage.setItem('iosHint','1');};
+  },2500));}})();
+trackVisit();
+title();
+</script>
+</body></html>

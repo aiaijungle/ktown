@@ -1,0 +1,30 @@
+# K-Town · Learn to Read Korean
+
+> Free browser game and lessons that teach absolute beginners to read Korean (Hangul) through real-life missions: signs, menus, food, and K-pop concert venues.
+
+## Learn pages
+- [벡스코 (BEXCO)](https://aiaijungle.github.io/ktown/seo/learn/busan-bexco.html): how to read & pronounce “벡스코” (bek-seu-ko).
+- [올림픽홀 (Olympic Hall (Seoul))](https://aiaijungle.github.io/ktown/seo/learn/seoul-olympic-hall.html): how to read & pronounce “올림픽홀” (ol-lim-pik-hol).
+- [돼지국밥 (Pork & rice soup)](https://aiaijungle.github.io/ktown/seo/learn/busan-dwaeji-gukbap.html): how to read & pronounce “돼지국밥” (dwae-ji-guk-bap).
+- [밀면 (Wheat cold noodles)](https://aiaijungle.github.io/ktown/seo/learn/busan-milmyeon.html): how to read & pronounce “밀면” (mil-myeon).
+- [씨앗호떡 (Seed-filled sweet pancake)](https://aiaijungle.github.io/ktown/seo/learn/busan-ssiat-hotteok.html): how to read & pronounce “씨앗호떡” (ssi-at-ho-tteok).
+- [자갈치시장 (Jagalchi Market)](https://aiaijungle.github.io/ktown/seo/learn/busan-jagalchi-market.html): how to read & pronounce “자갈치시장” (ja-gal-chi-si-jang).
+- [해운대 (Haeundae Beach)](https://aiaijungle.github.io/ktown/seo/learn/busan-haeundae.html): how to read & pronounce “해운대” (hae-un-dae).
+- [광안리 (Gwangalli Beach)](https://aiaijungle.github.io/ktown/seo/learn/busan-gwangalli.html): how to read & pronounce “광안리” (gwang-al-li).
+- [사직운동장 (Sajik Stadium (Busan))](https://aiaijungle.github.io/ktown/seo/learn/busan-sajik-stadium.html): how to read & pronounce “사직운동장” (sa-jik-un-dong-jang).
+- [서면 (Seomyeon (downtown Busan))](https://aiaijungle.github.io/ktown/seo/learn/busan-seomyeon.html): how to read & pronounce “서면” (seo-myeon).
+- [전포동 (Jeonpo-dong (café street))](https://aiaijungle.github.io/ktown/seo/learn/busan-jeonpo.html): how to read & pronounce “전포동” (jeon-po-dong).
+- [감천문화마을 (Gamcheon Culture Village)](https://aiaijungle.github.io/ktown/seo/learn/busan-gamcheon.html): how to read & pronounce “감천문화마을” (gam-cheon-mun-hwa-ma-eul).
+- [버스 (Bus)](https://aiaijungle.github.io/ktown/seo/learn/korean-bus.html): how to read & pronounce “버스” (beo-seu).
+- [교통카드 (Transit card (T-money))](https://aiaijungle.github.io/ktown/seo/learn/korean-transit-card.html): how to read & pronounce “교통카드” (gyo-tong-ka-deu).
+- [환승 (Transfer (subway/bus))](https://aiaijungle.github.io/ktown/seo/learn/korean-transfer.html): how to read & pronounce “환승” (hwan-seung).
+- [비빔밥 (Bibimbap)](https://aiaijungle.github.io/ktown/seo/learn/korean-bibimbap.html): how to read & pronounce “비빔밥” (bi-bim-bap).
+- [김밥 (Gimbap)](https://aiaijungle.github.io/ktown/seo/learn/korean-gimbap.html): how to read & pronounce “김밥” (gim-bap).
+- [불고기 (Bulgogi)](https://aiaijungle.github.io/ktown/seo/learn/korean-bulgogi.html): how to read & pronounce “불고기” (bul-go-gi).
+- [주세요 (Please give me)](https://aiaijungle.github.io/ktown/seo/learn/korean-juseyo.html): how to read & pronounce “주세요” (ju-se-yo).
+- [얼마예요 (How much is it?)](https://aiaijungle.github.io/ktown/seo/learn/korean-eolmayeyo.html): how to read & pronounce “얼마예요” (eol-ma-ye-yo).
+- [맛있어요 (It's delicious)](https://aiaijungle.github.io/ktown/seo/learn/korean-masisseoyo.html): how to read & pronounce “맛있어요” (ma-si-sseo-yo).
+- [편의점 (Convenience store)](https://aiaijungle.github.io/ktown/seo/learn/korean-pyeonuijeom.html): how to read & pronounce “편의점” (pyeon-ui-jeom).
+
+## Play
+- [K-Town game](https://aiaijungle.github.io/ktown/seo/game/index.html): free interactive demo.

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Your Name in 한글 · K-Town</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1a1413;--amber:#FF8C00;--rose:#E8546B;--cream:#FBF6EE;--card1:#FF8C00;--card2:#E8546B}
+body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  background:radial-gradient(1200px 600px at 50% -10%,#2a1d12,#140d08 60%);color:#fff;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 18px 60px;word-break:keep-all}
+.top{text-align:center;max-width:560px}
+.kbadge{display:inline-flex;align-items:center;gap:7px;background:#ffffff14;border:1px solid #ffffff22;
+  padding:6px 14px;border-radius:999px;font-size:13px;color:#ffd9a8;margin-bottom:14px}
+h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+h1 .a{color:var(--amber)}
+.sub{color:#cbb8a6;font-size:15px;margin-top:10px;line-height:1.5}
+.panel{width:100%;max-width:440px;margin-top:26px}
+.field{display:flex;gap:8px}
+.field input{flex:1;font-size:17px;padding:15px 16px;border-radius:14px;border:1px solid #ffffff22;
+  background:#ffffff10;color:#fff;outline:none;transition:all .2s}
+.field input::placeholder{color:#9b8a7a}
+.field input:focus{border-color:var(--amber);background:#ffffff16}
+.go{font-size:16px;font-weight:700;padding:0 20px;border:none;border-radius:14px;cursor:pointer;white-space:nowrap;
+  background:linear-gradient(135deg,var(--amber),var(--rose));color:#fff;transition:all .2s}
+.go:hover{transform:translateY(-2px);box-shadow:0 8px 22px #ff8c0055}
+.go:active{transform:translateY(0)}
+.hint{color:#8c7c6c;font-size:12.5px;margin-top:10px;text-align:center}
+
+/* CARD */
+.stage{margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:440px}
+.card{width:100%;aspect-ratio:1/1.25;border-radius:24px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,var(--card1),var(--card2));box-shadow:0 24px 60px #0008;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;text-align:center}
+.card::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 15%,#ffffff33,transparent 40%),radial-gradient(circle at 15% 90%,#00000022,transparent 45%);pointer-events:none}
+.card .mascot{font-size:46px;filter:drop-shadow(0 4px 8px #0004)}
+.card .han{font-size:64px;font-weight:800;letter-spacing:.02em;margin:10px 0 4px;text-shadow:0 4px 14px #0003;line-height:1.1}
+.card .romaji{font-size:15px;opacity:.92;font-weight:600}
+.card .orig{font-size:13px;opacity:.8;margin-top:2px}
+.card .foot{position:absolute;bottom:16px;font-size:11px;letter-spacing:.18em;opacity:.85;font-weight:700}
+.card .tag{position:absolute;top:16px;font-size:11px;letter-spacing:.16em;opacity:.85;font-weight:700}
+
+.tools{display:flex;gap:8px;width:100%;flex-wrap:wrap}
+.tool{flex:1;min-width:110px;font-size:14px;font-weight:700;padding:13px 10px;border-radius:13px;cursor:pointer;
+  border:1px solid #ffffff22;background:#ffffff12;color:#fff;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tool:hover{background:#ffffff1e;border-color:#ffffff44}
+.edit-row{display:none;width:100%;gap:8px;align-items:center}
+.edit-row.on{display:flex}
+.edit-row input{flex:1;font-size:18px;text-align:center;padding:12px;border-radius:12px;border:1px solid var(--amber);background:#ffffff10;color:#fff;outline:none}
+
+.cta{margin-top:30px;width:100%;max-width:440px;background:#ffffff0d;border:1px solid #ffffff1c;border-radius:18px;padding:20px;text-align:center}
+.cta h3{font-size:17px;font-weight:800}
+.cta p{color:#c9b8a8;font-size:13.5px;margin:7px 0 14px;line-height:1.5}
+.cta a{display:inline-block;text-decoration:none;font-size:15px;font-weight:800;padding:13px 26px;border-radius:13px;
+  background:#fff;color:var(--ink);transition:all .2s}
+.cta a:hover{transform:translateY(-2px);box-shadow:0 8px 22px #ffffff33}
+.legal{color:#6f6256;font-size:11px;margin-top:24px;max-width:440px;text-align:center;line-height:1.5}
+@media(max-width:480px){h1{font-size:24px}.card .han{font-size:52px}}
+</style></head>
+<body>
+<div class="top">
+  <span class="kbadge">🐯 K-Town · Learn Korean</span>
+  <h1>Your name in <span class="a">한글</span></h1>
+  <p class="sub">Type any name and get it written in Korean — hear it, save it, share it. Free, made for K-pop &amp; K-drama fans.</p>
+</div>
+
+<div class="panel">
+  <div class="field">
+    <input id="name" type="text" placeholder="Enter your name (e.g. Jenny)" autocomplete="off" maxlength="20">
+    <button class="go" id="goBtn">Make ✨</button>
+  </div>
+  <p class="hint">Works with any name. Hangul is an approximation — you can edit it. 한글은 근사치예요.</p>
+</div>
+
+<div class="stage" id="stage" style="display:none">
+  <div class="card" id="card">
+    <div class="mascot">🐯</div>
+    <div class="han" id="cHan">한글</div>
+    <div class="romaji" id="cRom">hangeul</div>
+    <div class="orig" id="cOrig">— Your Name</div>
+    <div class="tag">K-TOWN</div>
+    <div class="foot">YOUR NAME IN 한글</div>
+  </div>
+
+  <div class="edit-row" id="editRow">
+    <input id="editHan" type="text" maxlength="12" placeholder="한글 직접 수정">
+  </div>
+
+  <div class="tools">
+    <button class="tool" id="playBtn">🔊 Hear it</button>
+    <button class="tool" id="editBtn">✏️ Edit 한글</button>
+    <button class="tool" id="dlBtn">⬇️ Save card</button>
+  </div>
+</div>
+
+<div class="cta">
+  <h3>Now learn to read it yourself 🇰🇷</h3>
+  <p>You just saw your name in Korean. Want to actually <b>read every sign, menu and lyric</b>? Start your Korea survival in K-Town — free.</p>
+  <a href="#" id="playGame">▶ Play K-Town (free)</a>
+</div>
+
+<p class="legal">Not affiliated with any artist, group, label or brand. "Your name in Korean" is a free fan-made language tool by K-Town.</p>
+
+<canvas id="dlCanvas" width="900" height="1125" style="display:none"></canvas>
+
+<script>
+/* ───── Hangul composition ───── */
+const CHO=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JUNG=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+const JONG=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+function compose(cho,jung,jong){
+  const ci=CHO.indexOf(cho),ji=JUNG.indexOf(jung),ki=jong?JONG.indexOf(jong):0;
+  if(ci<0||ji<0) return (cho||'')+(jung||'');
+  return String.fromCharCode(0xAC00+ci*588+ji*28+(ki<0?0:ki));
+}
+/* finals that can attach as 받침 */
+const FINAL={'ㄴ':'ㄴ','ㅁ':'ㅁ','ㅇ':'ㅇ','ㄹ':'ㄹ','ㄱ':'ㄱ','ㅂ':'ㅂ'};
+
+/* consonant → 초성 */
+const C={b:'ㅂ',c:'ㅋ',d:'ㄷ',f:'ㅍ',g:'ㄱ',h:'ㅎ',j:'ㅈ',k:'ㅋ',l:'ㄹ',m:'ㅁ',n:'ㄴ',
+  p:'ㅍ',q:'ㅋ',r:'ㄹ',s:'ㅅ',t:'ㅌ',v:'ㅂ',w:'ㅇ',x:'ㅋ',z:'ㅈ'};
+/* vowel → 중성 */
+const V={a:'ㅏ',e:'ㅔ',i:'ㅣ',o:'ㅗ',u:'ㅜ'};
+/* trailing-consonant standalone syllable (받침 불가 시 ㅡ 붙임), 일부는 별도 */
+const TRAIL={b:'브',c:'크',d:'드',f:'프',g:'그',j:'지',k:'크',p:'프',q:'크',s:'스',t:'트',v:'브',x:'크',z:'즈'};
+
+function isV(ch){return 'aeiou'.includes(ch);}
+
+function translit(raw){
+  let s=raw.toLowerCase().replace(/[^a-z ]/g,'');
+  if(!s.trim()) return '';
+  return s.split(/\s+/).filter(Boolean).map(transWord).join(' ');
+}
+function transWord(w){
+  /* digraph normalization → temporary tokens */
+  w=w.replace(/tch/g,'ch').replace(/dge/g,'j').replace(/ck/g,'k').replace(/ph/g,'f')
+     .replace(/sh/g,'$').replace(/ch/g,'#').replace(/th/g,'s').replace(/ng\b/g,'%')
+     .replace(/oo/g,'u').replace(/ee/g,'i').replace(/ea/g,'i').replace(/oa/g,'o')
+     .replace(/ai/g,'@').replace(/ay/g,'@').replace(/ei/g,'@').replace(/ie/g,'i')
+     .replace(/ou/g,'au').replace(/ow\b/g,'au').replace(/qu/g,'kw');
+  /* silent trailing e (consonant + e at word end) */
+  w=w.replace(/([bcdfgjklmnpqrstvxz#$%])e$/,'$1');
+  let out='', i=0, pendCho=null;
+  const flush=(jong)=>{}; // not used
+  while(i<w.length){
+    let ch=w[i];
+    /* special vowel tokens */
+    if(ch==='@'){ // ai/ay → 아이 / 에이 depending on onset; use 에이
+      out+= (pendCho? compose(pendCho,'ㅔ'): '에') + '이'; pendCho=null; i++; continue;
+    }
+    if(ch==='%'){ // ng final
+      if(out.length){ // attach final consonant (jongseong) to last syllable
+        out=attachJong(out,'ㅇ');
+      } else out+='응';
+      pendCho=null; i++; continue;
+    }
+    if(ch==='$'||ch==='#'){ // sh / ch onset
+      const cho = ch==='$'?'ㅅ':'ㅊ';
+      // followed by vowel?
+      const nx=w[i+1];
+      if(nx&&isVtok(nx)){ pendCho=cho; i++; continue; }
+      out+= ch==='$'?'시':'치'; pendCho=null; i++; continue;
+    }
+    if(isVtok(ch)){
+      let jung = ch==='@'?'ㅔ':vTok(ch);
+      // semivowels: previous w/y handled via onset 'ㅇ'+compound; keep simple
+      if(pendCho){ out+=compose(pendCho,jung); pendCho=null; }
+      else out+=compose('ㅇ',jung);
+      i++; continue;
+    }
+    /* consonant */
+    const cho=C[ch];
+    const nx=w[i+1];
+    if(pendCho){ // previous consonant had no vowel → it's a 받침 or trailing
+      out=placeConsonant(out,pendCho,ch);
+      pendCho=null;
+    }
+    if(nx && (isVtok(nx))){ pendCho=cho; i++; continue; }
+    else { pendCho=cho; i++; continue; } // decide on next loop / end
+  }
+  /* trailing pending consonant */
+  if(pendCho){ out=placeConsonantFinal(out,pendCho); }
+  return out;
+}
+function isVtok(c){return 'aeiou@'.includes(c);}
+function vTok(c){return V[c]||'ㅡ';}
+
+function attachJong(str,jong){
+  if(!str)return str;
+  const last=str[str.length-1], code=last.charCodeAt(0)-0xAC00;
+  if(code>=0&&code<11172){
+    const ci=Math.floor(code/588), ji=Math.floor((code%588)/28), ki=code%28;
+    if(ki===0){ return str.slice(0,-1)+String.fromCharCode(0xAC00+ci*588+ji*28+JONG.indexOf(jong)); }
+  }
+  return str+jong;
+}
+/* a bare 초성 that had no vowel: try to make it a 받침 of prev syllable, else standalone */
+function placeConsonant(str, choHadNoVowel, nextChar){
+  // choHadNoVowel is the 초성 letter symbol; we know its source letter via reverse — simpler: pass symbol
+  return str; // replaced by symbol-based logic below
+}
+/* We re-implement with letter awareness: */
+</script>
+<script>
+/* ── cleaner re-implementation (letter-aware) overrides above transWord ── */
+function transWord(w){
+  w=w.replace(/chr/g,'kr').replace(/sch/g,'sk');   // hard-ch clusters (Chris→크리스)
+  w=w.replace(/tch/g,'ch').replace(/dge/g,'j').replace(/ck/g,'k').replace(/ph/g,'f')
+     .replace(/sh/g,'S').replace(/ch/g,'C').replace(/th/g,'s').replace(/ng\b/g,'N')
+     .replace(/oo/g,'u').replace(/ee/g,'i').replace(/ea/g,'i').replace(/oa/g,'o')
+     .replace(/ai/g,'A').replace(/ay/g,'A').replace(/ei/g,'A').replace(/ie/g,'i')
+     .replace(/ou/g,'W').replace(/qu/g,'kw');
+  w=w.replace(/c([eiy])/g,'s$1');                   // soft c (Lucy→루시, Grace→그라스)
+  if(w.length>1) w=w[0]+w.slice(1).replace(/h/g,'');// silent non-initial h (John→존, Sarah→사라)
+  w=w.replace(/([bcdfgjklmnpqrstvxzCS])e$/,'$1');   // silent final e
+  w=w.replace(/([a-zA-Z])\1+/g,'$1');               // collapse doubles (Jenny→제니)
+  // tokenize into sounds
+  const toks=[];
+  for(let i=0;i<w.length;i++){
+    const ch=w[i];
+    if('aeiou'.includes(ch)) toks.push({t:'V',v:V[ch]});
+    else if(ch==='A') toks.push({t:'V',v:'ㅔ',pre:'이'}); // diphthong 에이
+    else if(ch==='W') toks.push({t:'V',v:'ㅏ',post:'우'});
+    else if(ch==='S') toks.push({t:'C',c:'ㅅ',soft:true});
+    else if(ch==='C') toks.push({t:'C',c:'ㅊ',soft:true});
+    else if(ch==='N') toks.push({t:'F',f:'ㅇ'});
+    else if(ch==='w') toks.push({t:'C',c:'ㅇ',w:true});
+    else if(ch==='y') { // y as semivowel before vowel, else 이
+      const nx=w[i+1];
+      if(nx&&'aeiou'.includes(nx)) toks.push({t:'Y'});
+      else toks.push({t:'V',v:'ㅣ'});
+    }
+    else if(C[ch]) toks.push({t:'C',c:C[ch],ch});
+    else continue;
+  }
+  // assemble
+  let out='';
+  for(let i=0;i<toks.length;i++){
+    const tk=toks[i];
+    if(tk.t==='V'){
+      if(tk.pre) out+=compose('ㅇ',tk.v); // bare vowel 에 + 이
+      else out+=compose('ㅇ',tk.v);
+      if(tk.pre) out+=tk.pre;
+      if(tk.post) out+=tk.post;
+    } else if(tk.t==='C'||tk.t==='Y'){
+      // look ahead for vowel
+      let j=i+1, ycomp=(tk.t==='Y');
+      let vow=null, used=i;
+      if(tk.t==='Y'){ // y+vowel → compound jung
+        const nv=toks[i+1];
+        if(nv&&nv.t==='V'){ vow=yCompound(nv.v); used=i+1; }
+        else { out+='이'; continue; }
+        out+=compose('ㅇ',vow); i=used; continue;
+      }
+      const nx=toks[i+1];
+      if(nx&&nx.t==='V'){
+        let v=nx.v;
+        if(tk.w) v=wCompound(v);
+        out+=compose(tk.c,v);
+        if(nx.pre) out+=nx.pre;
+        if(nx.post) out+=nx.post;
+        i++; continue;
+      }
+      if(nx&&nx.t==='Y'){
+        const nv=toks[i+2];
+        if(nv&&nv.t==='V'){ out+=compose(tk.c,yCompound(nv.v)); i+=2; continue; }
+      }
+      // no vowel → 받침 or trailing
+      if(tk.ch && FINAL[tk.c] && out.length && canJong(out)){
+        out=attachJong(out,tk.c);
+      } else if(tk.ch && TRAIL[tk.ch]){
+        out+=TRAIL[tk.ch];
+      } else {
+        out+=compose(tk.c,'ㅡ');
+      }
+    } else if(tk.t==='F'){ // ng final
+      if(out.length&&canJong(out)) out=attachJong(out,'ㅇ'); else out+='응';
+    }
+  }
+  return out;
+}
+function yCompound(v){const m={'ㅏ':'ㅑ','ㅓ':'ㅕ','ㅗ':'ㅛ','ㅜ':'ㅠ','ㅔ':'ㅖ','ㅐ':'ㅒ','ㅣ':'ㅣ'};return m[v]||v;}
+function wCompound(v){const m={'ㅏ':'ㅘ','ㅓ':'ㅝ','ㅔ':'ㅞ','ㅐ':'ㅙ','ㅣ':'ㅟ','ㅗ':'ㅘ'};return m[v]||v;}
+function canJong(str){
+  const last=str[str.length-1],code=last.charCodeAt(0)-0xAC00;
+  if(code<0||code>=11172)return false;
+  return code%28===0; // no existing 받침
+}
+
+/* ───── UI ───── */
+const $=id=>document.getElementById(id);
+let curHan='', curName='';
+function generate(){
+  const name=$('name').value.trim();
+  if(!name){$('name').focus();return;}
+  curName=name;
+  curHan=translit(name)||'?';
+  $('cHan').textContent=curHan;
+  $('cRom').textContent=name.toLowerCase();
+  $('cOrig').textContent='— '+name;
+  $('editHan').value=curHan;
+  $('stage').style.display='flex';
+  $('editRow').classList.remove('on');
+  $('stage').scrollIntoView({behavior:'smooth',block:'center'});
+}
+$('goBtn').onclick=generate;
+$('name').addEventListener('keydown',e=>{if(e.key==='Enter')generate();});
+
+$('playBtn').onclick=()=>{
+  const u=new SpeechSynthesisUtterance($('cHan').textContent);
+  u.lang='ko-KR'; u.rate=.9;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+};
+$('editBtn').onclick=()=>{
+  $('editRow').classList.toggle('on');
+  if($('editRow').classList.contains('on')) $('editHan').focus();
+};
+$('editHan').addEventListener('input',e=>{ $('cHan').textContent=e.target.value||' '; });
+
+$('dlBtn').onclick=()=>{
+  const cv=$('dlCanvas'),x=cv.getContext('2d'),W=900,H=1125;
+  const g=x.createLinearGradient(0,0,W,H); g.addColorStop(0,'#FF8C00'); g.addColorStop(1,'#E8546B');
+  x.fillStyle=g; roundRect(x,0,0,W,H,48); x.fill();
+  x.fillStyle='rgba(255,255,255,.16)'; x.beginPath(); x.arc(W*.82,H*.13,200,0,7); x.fill();
+  x.textAlign='center';
+  x.font='700 30px Pretendard,sans-serif'; x.fillStyle='rgba(255,255,255,.9)';
+  x.fillText('K · T O W N',W/2,80);
+  x.font='80px serif'; x.fillText('🐯',W/2,H*.30);
+  x.font='800 130px Pretendard,"Malgun Gothic",sans-serif'; x.fillStyle='#fff';
+  x.fillText($('cHan').textContent,W/2,H*.52);
+  x.font='600 38px Pretendard,sans-serif'; x.fillStyle='rgba(255,255,255,.92)';
+  x.fillText(curName.toLowerCase(),W/2,H*.60);
+  x.font='400 30px Pretendard,sans-serif'; x.fillStyle='rgba(255,255,255,.8)';
+  x.fillText('— '+curName,W/2,H*.655);
+  x.font='700 26px Pretendard,sans-serif'; x.fillStyle='rgba(255,255,255,.85)';
+  x.fillText('YOUR NAME IN 한글',W/2,H-60);
+  const a=document.createElement('a');
+  a.download=(curName||'name')+'_in_hangul.png';
+  a.href=cv.toDataURL('image/png'); a.click();
+};
+function roundRect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+
+$('playGame').onclick=e=>{e.preventDefault();alert('K-Town 게임은 곧 공개됩니다! (MVP 제작 예정)');};
+
+/* demo on load */
+$('name').value='Jenny';
+</script>
+</body></html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Get your Korean Name 한국어 이름 · K-Town</title>
+<meta name="description" content="Get your real Korean name — with meaning. Free, made for K-pop fans. Then learn to read it in K-Town.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--amber:#FF8C00;--rose:#E8546B;--ink:#1a1413}
+body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  background:radial-gradient(1200px 600px at 50% -10%,#2a1d12,#140d08 60%);color:#fff;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:28px 18px 60px;word-break:keep-all}
+.top{text-align:center;max-width:560px}
+.kbadge{display:inline-flex;gap:7px;background:#ffffff14;border:1px solid #ffffff22;padding:6px 14px;border-radius:999px;font-size:13px;color:#ffd9a8;margin-bottom:14px}
+h1{font-size:29px;font-weight:800;letter-spacing:-.02em;line-height:1.2}h1 .a{color:var(--amber)}
+.sub{color:#cbb8a6;font-size:15px;margin-top:10px;line-height:1.5}
+.panel{width:100%;max-width:440px;margin-top:24px}
+.field{display:flex;gap:8px}
+.field input{flex:1;font-size:17px;padding:15px 16px;border-radius:14px;border:1px solid #ffffff22;background:#ffffff10;color:#fff;outline:none;transition:all .2s}
+.field input:focus{border-color:var(--amber)}
+.go{font-size:16px;font-weight:800;padding:0 22px;border:none;border-radius:14px;cursor:pointer;white-space:nowrap;background:linear-gradient(135deg,var(--amber),var(--rose));color:#fff;transition:all .2s}
+.go:hover{transform:translateY(-2px);box-shadow:0 8px 22px #ff8c0055}
+.hint{color:#8c7c6c;font-size:12.5px;margin-top:10px;text-align:center}
+.stage{margin-top:24px;width:100%;max-width:440px;display:none;flex-direction:column;align-items:center;gap:16px}
+.card{width:100%;border-radius:24px;background:linear-gradient(150deg,var(--amber),var(--rose));padding:34px 24px;text-align:center;position:relative;overflow:hidden;box-shadow:0 24px 60px #0008;animation:pop .5s}
+@keyframes pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 14%,#ffffff33,transparent 42%)}
+.card .tag{font-size:11px;letter-spacing:.2em;font-weight:800;opacity:.85}
+.card .han{font-size:62px;font-weight:800;margin:10px 0 4px;text-shadow:0 4px 14px #0003}
+.card .rom{font-size:18px;font-weight:700;opacity:.95}
+.card .mean{font-size:14px;opacity:.9;margin-top:8px}
+.card .note{font-size:12px;opacity:.8;margin-top:12px;border-top:1px solid #ffffff33;padding-top:10px}
+.tools{display:flex;gap:8px;width:100%;flex-wrap:wrap}
+.tool{flex:1;min-width:110px;font-size:14px;font-weight:700;padding:13px 10px;border-radius:13px;border:1px solid #ffffff22;background:#ffffff12;color:#fff;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tool:hover{background:#ffffff1e}
+.cta{margin-top:28px;width:100%;max-width:440px;background:#ffffff0d;border:1px solid #ffffff1c;border-radius:18px;padding:20px;text-align:center}
+.cta h3{font-size:16px;font-weight:800}.cta p{color:#c9b8a8;font-size:13px;margin:7px 0 14px}
+.cta a{display:inline-block;text-decoration:none;font-weight:800;padding:12px 24px;border-radius:12px;background:#fff;color:var(--ink)}
+.legal{color:#6f6256;font-size:11px;margin-top:22px;max-width:440px;text-align:center;line-height:1.5}
+.sheet{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:20}
+.sheet.on{display:flex}
+.sheetc{background:#161019;border:1px solid #ffffff1c;border-bottom:none;border-radius:22px 22px 0 0;width:100%;max-width:460px;padding:22px 20px 28px;animation:up .3s}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheetc h3{font-size:17px;font-weight:800}.sheetc .ps{color:#cbb8a6;font-size:13px;margin:4px 0 16px}
+.shareImg{width:100%;border-radius:14px;margin-bottom:16px;box-shadow:0 10px 30px #0007}
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sbtn{display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:700;padding:13px;border-radius:12px;border:1px solid #ffffff22;background:#ffffff12;color:#fff;cursor:pointer}
+.sbtn:hover{background:#ffffff1e}.sbtn.x{background:#000;border-color:#444}
+.sclose{width:100%;margin-top:12px;background:none;border:none;color:#8c7c6c;font-size:14px;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--ink);font-weight:700;font-size:14px;padding:12px 20px;border-radius:99px;opacity:0;transition:all .3s;pointer-events:none;z-index:30}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:480px){h1{font-size:24px}.card .han{font-size:50px}}
+</style></head>
+<body>
+<div class="top">
+  <span class="kbadge">🐯 K-Town</span>
+  <h1>Get your <span class="a">Korean name</span></h1>
+  <p class="sub">Every K-pop fan deserves a Korean name — with a real meaning. Find yours, then learn to read it.</p>
+</div>
+<div class="panel">
+  <div class="field">
+    <input id="name" type="text" placeholder="Enter your name (e.g. Jenny)" maxlength="20" autocomplete="off">
+    <button class="go" id="go">Reveal ✨</button>
+  </div>
+  <p class="hint">Your Korean name is matched to you — it stays the same every time.</p>
+</div>
+
+<div class="stage" id="stage">
+  <div class="card" id="card">
+    <div class="tag">MY KOREAN NAME</div>
+    <div class="han" id="han">김지은</div>
+    <div class="rom" id="rom">Kim Ji-eun</div>
+    <div class="mean" id="mean">"wisdom & grace"</div>
+    <div class="note" id="note">In Korea the family name 김 (Kim) comes first.</div>
+  </div>
+  <div class="tools">
+    <button class="tool" id="hear">🔊 Hear it</button>
+    <button class="tool" id="share">📸 Share</button>
+    <button class="tool" id="save">⬇️ Save</button>
+  </div>
+</div>
+
+<div class="cta">
+  <h3>Now learn to read it 🇰🇷</h3>
+  <p>That's your name in Korean. Want to actually read signs, menus &amp; lyrics? Play K-Town free.</p>
+  <a href="../game/index.html">▶ Play K-Town (free)</a>
+</div>
+<p class="legal">A fun fan-made name tool. Not affiliated with any artist, group, label or brand.</p>
+
+<canvas id="cv" width="900" height="1125" style="display:none"></canvas>
+<div class="sheet" id="sheet"><div class="sheetc" id="sheetc"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const SITE_URL='https://aiaijungle.github.io/ktown/korean-name'; // 배포 URL (GitHub Pages)
+const e=encodeURIComponent;
+/* 검증된 한글 데이터 (validate_korean.py 검사 대상) */
+const SURNAMES=[
+  {h:'김',r:'Kim'},{h:'이',r:'Lee'},{h:'박',r:'Park'},{h:'최',r:'Choi'},{h:'정',r:'Jung'},{h:'강',r:'Kang'},
+  {h:'조',r:'Cho'},{h:'윤',r:'Yoon'},{h:'장',r:'Jang'},{h:'한',r:'Han'},{h:'신',r:'Shin'},{h:'서',r:'Seo'}];
+const GIVENS=[
+  {h:'지은',r:'Ji-eun',m:'wisdom & grace'},{h:'서연',r:'Seo-yeon',m:'auspicious & graceful'},
+  {h:'민준',r:'Min-jun',m:'clever & talented'},{h:'하늘',r:'Ha-neul',m:'"sky" — a pure-Korean name'},
+  {h:'수아',r:'Su-a',m:'excellent & elegant'},{h:'예준',r:'Ye-jun',m:'art & brilliance'},
+  {h:'다은',r:'Da-eun',m:'abundant grace'},{h:'하준',r:'Ha-jun',m:'great & talented'},
+  {h:'시우',r:'Si-woo',m:'new beginning & blessing'},{h:'지호',r:'Ji-ho',m:'wisdom & brightness'},
+  {h:'유진',r:'Yu-jin',m:'abundant & precious'},{h:'채원',r:'Chae-won',m:'radiance & origin'},
+  {h:'도윤',r:'Do-yun',m:'path & abundance'},{h:'은우',r:'Eun-woo',m:'grace & wide world'},
+  {h:'소율',r:'So-yul',m:'melody & harmony'},{h:'아린',r:'A-rin',m:'bright & graceful'}];
+let cur={};
+function pick(name){let h=0;for(const c of name.toLowerCase())h=(h*31+c.charCodeAt(0))>>>0;
+  const s=SURNAMES[h%SURNAMES.length],g=GIVENS[Math.floor(h/SURNAMES.length)%GIVENS.length];
+  return {kr:s.h+g.h, rom:s.r+' '+g.r, mean:g.m, sn:s.h, snr:s.r};}
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),1600);}
+function reveal(){const name=$('name').value.trim();if(!name){$('name').focus();return;}
+  cur={...pick(name),name};
+  $('han').textContent=cur.kr;$('rom').textContent=cur.rom;$('mean').textContent='"'+cur.mean+'"';
+  $('note').textContent='In Korea the family name '+cur.sn+' ('+cur.snr+') comes first.';
+  $('stage').style.display='flex';$('stage').scrollIntoView({behavior:'smooth',block:'center'});say(cur.kr);}
+$('go').onclick=reveal;$('name').addEventListener('keydown',ev=>{if(ev.key==='Enter')reveal();});
+$('hear').onclick=()=>say(cur.kr);
+function roundRect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function renderCard(){const cv=$('cv'),x=cv.getContext('2d'),W=900,H=1125;
+  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#FF8C00');g.addColorStop(1,'#E8546B');x.fillStyle=g;roundRect(x,0,0,W,H,48);x.fill();
+  x.fillStyle='rgba(255,255,255,.16)';x.beginPath();x.arc(W*.82,H*.14,200,0,7);x.fill();x.textAlign='center';
+  x.font='700 30px Pretendard,sans-serif';x.fillStyle='rgba(255,255,255,.9)';x.fillText('MY KOREAN NAME',W/2,120);
+  x.font='800 150px Pretendard,"Malgun Gothic",sans-serif';x.fillStyle='#fff';x.fillText(cur.kr,W/2,H*.45);
+  x.font='700 48px Pretendard,sans-serif';x.fillStyle='rgba(255,255,255,.95)';x.fillText(cur.rom,W/2,H*.55);
+  x.font='400 34px Pretendard,sans-serif';x.fillStyle='rgba(255,255,255,.88)';x.fillText('"'+cur.mean+'"',W/2,H*.62);
+  x.font='700 26px Pretendard,sans-serif';x.fillStyle='rgba(255,255,255,.85)';x.fillText('🐯 K-TOWN · ktown-korean.com',W/2,H-60);
+  return cv;}
+const PLATS=[
+  {n:'𝕏 Post',cls:'x',u:(t,u)=>`https://twitter.com/intent/tweet?text=${e(t)}&url=${e(u)}&hashtags=KoreanName,LearnKorean,KTown,KPop`},
+  {n:'WhatsApp',u:(t,u)=>`https://wa.me/?text=${e(t+' '+u)}`},
+  {n:'Telegram',u:(t,u)=>`https://t.me/share/url?url=${e(u)}&text=${e(t)}`},
+  {n:'LINE',u:(t,u)=>`https://social-plugins.line.me/lineit/share?url=${e(u)}`},
+  {n:'Reddit',u:(t,u)=>`https://www.reddit.com/submit?url=${e(u)}&title=${e(t)}`},
+  {n:'Threads',u:(t,u)=>`https://www.threads.net/intent/post?text=${e(t+' '+u)}`},
+  {n:'Facebook',u:(t,u)=>`https://www.facebook.com/sharer/sharer.php?u=${e(u)}`},
+  {n:'Pinterest',u:(t,u)=>`https://www.pinterest.com/pin/create/button/?url=${e(u)}&description=${e(t)}`},
+];
+function shareText(){return `My Korean name is ${cur.kr} (${cur.rom}) — "${cur.mean}" 🇰🇷 What's yours?`;}
+function shareUrl(){return `${SITE_URL}/?ref=${e(cur.kr)}`;}
+async function shareName(){const cv=renderCard(),text=shareText(),url=shareUrl();
+  try{const blob=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([blob],'korean-name.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text,url});return;}}catch(err){}
+  openSheet(cv,text,url);}
+function openSheet(cv,text,url){const data=cv.toDataURL('image/png');
+  const native=navigator.share?`<button class="sbtn" id="snative" style="grid-column:1/-1;background:linear-gradient(135deg,#FF8C00,#E8546B);border:none">📲 Share to any app — Instagram · TikTok · Kakao…</button>`:'';
+  $('sheetc').innerHTML=`<h3>Share your Korean name 📸</h3><p class="ps">Tag a friend — what's their Korean name?</p>
+    <img class="shareImg" src="${data}" alt="Korean name">
+    <div class="srow">${native}${PLATS.map((p,i)=>`<button class="sbtn ${p.cls||''}" data-i="${i}">${p.n}</button>`).join('')}
+    <button class="sbtn" id="scopy">🔗 Copy link</button><button class="sbtn" id="sdl">⬇️ Save image</button></div>
+    <button class="sclose" id="sclose">Close</button>`;
+  $('sheet').classList.add('on');
+  if(native)$('snative').onclick=async()=>{try{const b=await new Promise(r=>cv.toBlob(r,'image/png'));const f=new File([b],'korean-name.png',{type:'image/png'});(navigator.canShare&&navigator.canShare({files:[f]}))?await navigator.share({files:[f],text,url}):await navigator.share({text,url});}catch(err){}};
+  $('sheetc').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>window.open(PLATS[b.dataset.i].u(text,url),'_blank','noopener'));
+  $('scopy').onclick=async()=>{try{await navigator.clipboard.writeText(text+' '+url);toast('Copied! 🔗');}catch(err){}};
+  $('sdl').onclick=()=>{const a=document.createElement('a');a.download='my-korean-name.png';a.href=data;a.click();toast('Saved — post it! 📸');};
+  $('sclose').onclick=()=>$('sheet').classList.remove('on');}
+$('share').onclick=shareName;
+$('save').onclick=()=>{const cv=renderCard();const a=document.createElement('a');a.download='my-korean-name.png';a.href=cv.toDataURL('image/png');a.click();toast('Saved! 📸');};
+$('name').value='Jenny';
+</script>
+</body></html>
