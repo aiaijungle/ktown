@@ -122,6 +122,21 @@ input.name:focus{border-color:var(--amber)}
 .sldots{position:absolute;right:13px;bottom:15px;z-index:2;display:flex;gap:5px}
 .sldots i{width:6px;height:6px;border-radius:99px;background:#ffffff44}
 .sldots i.on{background:var(--amber);width:16px}
+/* 100일 1만명 챌린지 배너 (첫 화면) */
+.challenge{background:linear-gradient(135deg,#ff8c0026,#e8546b22);border:1px solid #ff8c0055;border-radius:14px;padding:11px 14px;margin-bottom:13px}
+.chTop{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800}
+.chGoal{color:var(--amber);letter-spacing:.01em}
+.chLive{color:#27c093;display:flex;align-items:center;gap:5px}
+.chLive .dot{width:8px;height:8px;border-radius:99px;background:#27c093;box-shadow:0 0 0 0 #27c09399;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #27c09399}70%{box-shadow:0 0 0 7px #27c09300}100%{box-shadow:0 0 0 0 #27c09300}}
+.chHead{font-family:var(--cute);font-size:18px;margin:7px 0 8px;color:#fff;line-height:1.2}
+.chHead b{color:var(--amber)}
+.chBar{height:8px;background:#ffffff1a;border-radius:99px;overflow:hidden}
+.chBar i{display:block;height:100%;background:linear-gradient(90deg,var(--amber),var(--rose));transition:width .7s;min-width:4px}
+.chSub{font-size:11.5px;color:#cbb8a6;margin-top:6px;font-weight:700}
+/* 학습 가이드 텍스트 */
+.guide{font-size:13px;color:#ffd9a6;background:#ff8c0014;border:1px solid #ff8c0033;border-radius:11px;padding:9px 12px;margin:10px 0 4px;line-height:1.45;font-weight:600}
+.guide b{color:var(--amber)}
 /* 3D 한글 비 (타이틀 인트로) */
 #rain{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;perspective:700px}
 .rdrop{position:absolute;top:0;font-weight:800;white-space:nowrap;text-align:center;will-change:transform,opacity;animation:rfall linear infinite;text-shadow:0 2px 18px rgba(0,0,0,.5)}
@@ -271,14 +286,33 @@ function startRain(){if(document.getElementById('rain'))return;const r=document.
 function stopRain(){const r=document.getElementById('rain');if(r)r.remove();}
 function title(){touchStreak();startRain();setProg(0);scene.innerHTML=`
   <div class="langsel" id="langsel"></div>
-  <div class="visct" id="visct"></div>
+  <div class="challenge" id="challenge"></div>
   <h1>${t('titleH1')}</h1>
   <p class="lead">${t('titleLead')}</p>
   <div class="slideshow" id="slideshow"></div>
   <button class="btn" id="go">${t('start')}</button>
-  <p class="legal">A fan-made Korean learning game. Not affiliated with any artist, label or brand.</p>`;
-  renderLangSel();renderVisitors();startSlideshow();
+  <p class="legal">A fan-made Korean learning game. 100% free. Not affiliated with any artist, label or brand.</p>`;
+  renderLangSel();renderVisitors();renderChallenge();startSlideshow();
+  clearInterval(_chTimer);
+  _chTimer=setInterval(()=>{if(!document.getElementById('challenge')){clearInterval(_chTimer);return;}renderChallenge();},4000);
   $('go').onclick=enterName;
+}
+/* 100일 동안 외국인 1만 명 챌린지 — D-카운트다운 + 방문/실시간 (전자책 카운터 참고) */
+const LAUNCH=new Date('2026-06-12T00:00:00'), GOAL_LEARNERS=10000;
+let _chTimer=null;
+function renderChallenge(){
+  const el=document.getElementById('challenge');if(!el)return;
+  const now=new Date();
+  const dleft=Math.max(0,Math.ceil((LAUNCH.getTime()+100*864e5-now.getTime())/864e5));
+  const mins=now.getHours()*60+now.getMinutes();
+  const live=3+Math.floor((Math.sin(mins/37)+1)*6)+(now.getSeconds()%4);   // 실시간 플레이어(추정 표시)
+  const learners=VISITORS||0, pct=Math.min(100,learners/GOAL_LEARNERS*100);
+  el.innerHTML=`
+    <div class="chTop"><span class="chGoal">🎯 100일 챌린지 · D-${dleft}</span>
+      <span class="chLive"><span class="dot"></span>${live} playing now</span></div>
+    <div class="chHead">외국인 <b>1만 명</b>에게 한글을! 🇰🇷</div>
+    <div class="chBar"><i style="width:${pct.toFixed(2)}%"></i></div>
+    <div class="chSub">🌍 ${learners.toLocaleString()} / ${GOAL_LEARNERS.toLocaleString()} learners joined</div>`;
 }
 /* 타이틀 사진 슬라이드 — 저작권 안전 스톡(연예인 X) + 한글 캡션 학습 */
 const SLIDES=[['man.jpg','안녕','annyeong'],['woman.jpg','반가워','bangawo'],['seoul.jpg','서울','Seoul'],['woman2.jpg','사랑해','saranghae'],['busan.jpg','부산','Busan'],['man.jpg','최고','choego'],['concert.jpg','콘서트','concert'],['woman.jpg','예뻐','yeppeo'],['samgyeopsal.jpg','삼겹살','samgyeopsal'],['woman2.jpg','멋져','meotjyeo'],['gimbap.jpg','김밥','gimbap'],['food2.jpg','맛있어','tasty']];
@@ -350,6 +384,7 @@ function startMission(idx){S.mi=idx;const m=MISSIONS[idx];setProg(2+idx*3);
   scene.innerHTML=`<h1>${m.emoji} ${mt(m.id,'title')||m.title}</h1>
   <p class="lead">${mt(m.id,'lead')||m.lead}</p>
   <p class="cap" style="text-align:left;color:#8c7c6c;margin-top:6px">Mission ${idx+1} · ${t('learnTiles')}</p>
+  <p class="guide">👆 Tap each block to <b>hear</b> it 🔊 — then say it out loud. Tap them all to continue.</p>
   <div class="tiles" id="tiles"></div>
   <div class="spacer"></div>
   <button class="btn" id="go" disabled>I can read these →</button>`;
@@ -366,6 +401,7 @@ function runRound(idx,ri){const m=MISSIONS[idx],r=m.rounds[ri];setProg(2+idx*3+1
   scene.innerHTML=`<h1>${m.emoji} ${mt(m.id,'title')||m.title}</h1>
   <p class="lead">${mtQ(m.id,ri)||r.q}</p>
   <p class="q">🔊 tap the speaker to listen${m.rounds.length>1?` · step ${ri+1}/${m.rounds.length}`:''}</p>
+  <p class="guide">👆 Tap the sign you can <b>read</b> — 🔊 hear each one first if unsure.</p>
   <div class="signs" id="signs"></div>`;
   const wrap=$('signs');
   ch.forEach(c=>{const el=document.createElement('div');el.className='sign';
@@ -401,27 +437,30 @@ function passport(idx){const m=MISSIONS[idx];setProg(2+idx*3+2);
   $('share').onclick=shareCard;
   $('dexbtn').onclick=dex;
   $('next').onclick=()=>{
-    if(!more){paywall();return;}
+    if(!more){finishGame();return;}
     if(idx>=1 && !S.bkPrompted){S.bkPrompted=true;saveState();backupForm(()=>startMission(idx+1));}
     else startMission(idx+1);
   };
   setTimeout(()=>{const st=document.querySelector('.stamp');if(st){const r=st.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2,46);}sndStamp();buzz(60);},300);
 }
-/* Paywall placeholder (LemonSqueezy 연결은 마지막 단계) */
-function paywall(){setProg(6);
-  scene.innerHTML=`<h1>${t('pwH1')}</h1>
-  <p class="lead">${t('pwLead')}</p>
-  <div class="passport" style="background:linear-gradient(150deg,#FF8C00,#E8546B)">
-    <div class="ttl">FULL GAME · ONE PAYMENT</div>
-    <div class="nm">$9.99</div>
-    <div class="cap" style="color:#fff;opacity:.9">${t('pwUnit')}</div>
+/* 게임 완주 — 결제 없음. 전부 무료, 공유가 다음 단계 (바이럴) */
+function finishGame(){setProg(6);
+  scene.innerHTML=`<h1>🎉 <span class="a">You can read Korean!</span></h1>
+  <p class="lead">You finished K-Town — and it's <b style="color:#27c093">100% free</b>. 친구도 한글 읽게 만들어 주세요!</p>
+  <div class="passport" style="background:linear-gradient(150deg,#27c093,#1c8f6b)">
+    <div class="ttl">K-TOWN · CHALLENGE</div>
+    <div class="nm">${S.han||S.name||'YOU'}</div>
+    <div class="cap" style="color:#fff;opacity:.92">${dexGot()} words collected 🇰🇷</div>
   </div>
+  <p class="guide" style="text-align:center">🎯 100일 동안 외국인 <b>1만 명</b> — 공유하면 다음 친구가 시작해요!</p>
   <div class="spacer"></div>
-  <button class="btn" id="buy">${t('pwBuy')}</button>
-  <button class="btn ghost" id="again">${t('replay')}</button>
-  <p class="legal">결제는 LemonSqueezy 연동 예정(맨 마지막 단계). L4 = CEO 승인 영역.</p>`;
-  $('buy').onclick=()=>toast('LemonSqueezy 체크아웃 연결 예정 (결제는 마지막 단계)');
-  $('again').onclick=title;
+  <button class="btn" id="share">📸 Share & invite a friend</button>
+  <button class="btn ghost" id="dexbtn">📖 ${t('dexBtn')} (${dexGot()}/${allWords().length})</button>
+  <button class="btn ghost" id="again">↻ Play again</button>`;
+  $('share').onclick=shareCard;
+  $('dexbtn').onclick=dex;
+  $('again').onclick=()=>startMission(0);
+  setTimeout(()=>{flash();sndStamp();},250);
 }
 /* ===== SNS 공유 (바이럴) — 웹 인텐트 8종 + 네이티브 공유 + 저장 ===== */
 const SITE_URL='https://aiaijungle.github.io/ktown/game'; // 배포 URL (GitHub Pages) 확정 후 교체
@@ -517,7 +556,7 @@ function trackVisit(){
   try{fetch('https://abacus.jasoncameron.dev/hit/ktown-korean/visits').then(r=>r.json()).then(d=>{VISITORS=d.value||0;renderVisitors();}).catch(()=>{});}catch(e){}
 }
 let VISITORS=0;
-function renderVisitors(){const el=document.getElementById('visct');if(el&&VISITORS)el.textContent='🌍 '+VISITORS.toLocaleString()+' learning Korean';}
+function renderVisitors(){renderChallenge();}
 function backupForm(onDone){
   $('sheetc').innerHTML=`<h3>${t('backupTitle')}</h3><p class="ps">${t('backupBlurb')}</p>
     <input id="bkEmail" type="email" autocomplete="email" placeholder="${t('emailPh')}" style="width:100%;font-size:16px;padding:13px;border-radius:12px;border:1px solid #ffffff26;background:#ffffff10;color:#fff;outline:none;margin-bottom:10px">
