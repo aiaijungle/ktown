@@ -105,6 +105,18 @@ input.name:focus{border-color:var(--amber)}
 .langbtn{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid #ffffff22;background:#ffffff0d;color:#cbb8a6;cursor:pointer;transition:all .15s}
 .langbtn.on{background:linear-gradient(135deg,#FF8C00,#E8546B);color:#fff;border-color:transparent}
 .visct{text-align:center;font-size:12.5px;color:#27c093;font-weight:700;margin-bottom:12px;min-height:16px;letter-spacing:.01em}
+/* 타이틀 사진 슬라이드 (중앙) */
+.slideshow{position:relative;flex:1;min-height:170px;max-height:320px;margin:14px 0 4px;border-radius:18px;overflow:hidden;border:1px solid #ffffff20;background:#0c0805;box-shadow:0 12px 34px #0006}
+.slideshow .sl{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .55s ease}
+.slideshow .sl.on{opacity:1;animation:slken 6s ease-in-out infinite alternate}
+@keyframes slken{from{transform:scale(1.02)}to{transform:scale(1.09)}}
+.slideshow::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 45%,#000b);pointer-events:none;z-index:1}
+.slcap{position:absolute;left:16px;bottom:13px;z-index:2;font-size:26px;font-weight:800;color:#fff;text-shadow:0 2px 12px #000;line-height:1.1;opacity:1;transition:opacity .35s ease}
+.slcap .r{display:block;font-size:12.5px;font-weight:600;color:#ffd166;margin-top:2px}
+.slcap .spk{position:absolute;right:-2px;top:-40px;font-size:17px;opacity:.85}
+.sldots{position:absolute;right:13px;bottom:15px;z-index:2;display:flex;gap:5px}
+.sldots i{width:6px;height:6px;border-radius:99px;background:#ffffff44}
+.sldots i.on{background:var(--amber);width:16px}
 /* 3D 한글 비 (타이틀 인트로) */
 #rain{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;perspective:700px}
 .rdrop{position:absolute;top:0;font-weight:800;white-space:nowrap;text-align:center;will-change:transform,opacity;animation:rfall linear infinite;text-shadow:0 2px 18px rgba(0,0,0,.5)}
@@ -257,11 +269,30 @@ function title(){touchStreak();startRain();setProg(0);scene.innerHTML=`
   <div class="visct" id="visct"></div>
   <h1>${t('titleH1')}</h1>
   <p class="lead">${t('titleLead')}</p>
-  <div class="spacer"></div>
+  <div class="slideshow" id="slideshow"></div>
   <button class="btn" id="go">${t('start')}</button>
   <p class="legal">A fan-made Korean learning game. Not affiliated with any artist, label or brand.</p>`;
-  renderLangSel();renderVisitors();
+  renderLangSel();renderVisitors();startSlideshow();
   $('go').onclick=enterName;
+}
+/* 타이틀 사진 슬라이드 — 저작권 안전 스톡(연예인 X) + 한글 캡션 학습 */
+const SLIDES=[['man.jpg','안녕','annyeong'],['seoul.jpg','서울','Seoul'],['woman.jpg','사랑해','saranghae'],['busan.jpg','부산','Busan'],['concert.jpg','콘서트','concert'],['samgyeopsal.jpg','삼겹살','samgyeopsal'],['gimbap.jpg','김밥','gimbap'],['man2.jpg','대박','daebak'],['woman2.jpg','한국','Korea'],['food2.jpg','맛있어','tasty']];
+let _slTimer=null;
+function startSlideshow(){
+  const box=$('slideshow');if(!box)return;
+  box.innerHTML=SLIDES.map((s,i)=>`<div class="sl${i===0?' on':''}" style="background-image:url('photos/${s[0]}')"></div>`).join('')
+    +`<div class="slcap" id="slcap"></div><div class="sldots" id="sldots">${SLIDES.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div>`;
+  let i=0;const cap=$('slcap');
+  const setCap=()=>{cap.innerHTML=`${SLIDES[i][1]}<span class="r">${SLIDES[i][2]}</span>`;};setCap();
+  clearInterval(_slTimer);
+  _slTimer=setInterval(()=>{
+    if(!document.body.contains(box)){clearInterval(_slTimer);return;}
+    const els=box.querySelectorAll('.sl'),dots=$('sldots').children;
+    cap.style.opacity=0;                                   // 캡션 먼저 페이드아웃
+    els[i].classList.remove('on');dots[i].classList.remove('on');
+    i=(i+1)%SLIDES.length;els[i].classList.add('on');dots[i].classList.add('on');
+    setTimeout(()=>{setCap();cap.style.opacity=1;},280);   // 새 사진 뜬 뒤 캡션 교체
+  },2800);
 }
 function renderLangSel(){const el=$('langsel');if(!el)return;
   el.innerHTML=LANGS.map(l=>`<button class="langbtn${getLang()===l.code?' on':''}" data-l="${l.code}">${l.flag} ${l.label}</button>`).join('');
