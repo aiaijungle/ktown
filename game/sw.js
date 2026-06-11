@@ -1,6 +1,6 @@
 /* K-Town service worker — 오프라인 동작 + 폰 소장 (전자책처럼) */
-const CACHE = 'ktown-v15';  // ⚠️ 에셋(i18n.js·worddex.js 등) 수정할 때마다 버전 올리기
-const PHOTOS = ['man','woman','man2','woman2','man3','woman3','man4','woman4','seoul','busan','concert','samgyeopsal','gimbap','food2'].map(n=>`./photos/${n}.jpg`);
+const CACHE = 'ktown-v16';  // ⚠️ 에셋(i18n.js·worddex.js 등) 수정할 때마다 버전 올리기
+const PHOTOS = ['man','woman','man2','woman2','man3','woman3','man4','woman4','man5','woman5','man6','woman6','seoul','busan','concert','samgyeopsal','gimbap','food2'].map(n=>`./photos/${n}.jpg`);
 const ASSETS = ['./', './index.html', './worddex.js', './i18n.js', './audio_map.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', ...PHOTOS];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
