@@ -104,6 +104,7 @@ input.name:focus{border-color:var(--amber)}
 .langsel{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
 .langbtn{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid #ffffff22;background:#ffffff0d;color:#cbb8a6;cursor:pointer;transition:all .15s}
 .langbtn.on{background:linear-gradient(135deg,#FF8C00,#E8546B);color:#fff;border-color:transparent}
+.visct{text-align:center;font-size:12.5px;color:#27c093;font-weight:700;margin-bottom:12px;min-height:16px;letter-spacing:.01em}
 /* 3D 한글 비 (타이틀 인트로) */
 #rain{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;perspective:700px}
 .rdrop{position:absolute;top:0;font-weight:800;white-space:nowrap;text-align:center;will-change:transform,opacity;animation:rfall linear infinite;text-shadow:0 2px 18px rgba(0,0,0,.5)}
@@ -253,12 +254,13 @@ function startRain(){if(document.getElementById('rain'))return;const r=document.
 function stopRain(){const r=document.getElementById('rain');if(r)r.remove();}
 function title(){touchStreak();startRain();setProg(0);scene.innerHTML=`
   <div class="langsel" id="langsel"></div>
+  <div class="visct" id="visct"></div>
   <h1>${t('titleH1')}</h1>
   <p class="lead">${t('titleLead')}</p>
   <div class="spacer"></div>
   <button class="btn" id="go">${t('start')}</button>
   <p class="legal">A fan-made Korean learning game. Not affiliated with any artist, label or brand.</p>`;
-  renderLangSel();
+  renderLangSel();renderVisitors();
   $('go').onclick=enterName;
 }
 function renderLangSel(){const el=$('langsel');if(!el)return;
@@ -475,7 +477,11 @@ function trackVisit(){
   const v={country,locale:loc,gameLang:getLang(),tz,ref:(new URLSearchParams(location.search).get('ref')||''),ts:new Date().toISOString()};
   try{const t=JSON.parse(localStorage.getItem('ktownVisits')||'{}');const k=country||'??';t[k]=(t[k]||0)+1;localStorage.setItem('ktownVisits',JSON.stringify(t));}catch(e){}
   try{if(VISIT_ENDPOINT)fetch(VISIT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(v),keepalive:true});}catch(e){}
+  // 눈에 보이는 실시간 방문자 카운터 (무료·무계정 Abacus)
+  try{fetch('https://abacus.jasoncameron.dev/hit/ktown-korean/visits').then(r=>r.json()).then(d=>{VISITORS=d.value||0;renderVisitors();}).catch(()=>{});}catch(e){}
 }
+let VISITORS=0;
+function renderVisitors(){const el=document.getElementById('visct');if(el&&VISITORS)el.textContent='🌍 '+VISITORS.toLocaleString()+' learning Korean';}
 function backupForm(onDone){
   $('sheetc').innerHTML=`<h3>${t('backupTitle')}</h3><p class="ps">${t('backupBlurb')}</p>
     <input id="bkEmail" type="email" autocomplete="email" placeholder="${t('emailPh')}" style="width:100%;font-size:16px;padding:13px;border-radius:12px;border:1px solid #ffffff26;background:#ffffff10;color:#fff;outline:none;margin-bottom:10px">
