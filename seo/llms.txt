@@ -3,28 +3,35 @@
 > Free browser game and lessons that teach absolute beginners to read Korean (Hangul) through real-life missions: signs, menus, food, and K-pop concert venues.
 
 ## Learn pages
-- [벡스코 (BEXCO)](https://aiaijungle.github.io/ktown/seo/learn/busan-bexco.html): how to read & pronounce “벡스코” (bek-seu-ko).
-- [올림픽홀 (Olympic Hall (Seoul))](https://aiaijungle.github.io/ktown/seo/learn/seoul-olympic-hall.html): how to read & pronounce “올림픽홀” (ol-lim-pik-hol).
-- [돼지국밥 (Pork & rice soup)](https://aiaijungle.github.io/ktown/seo/learn/busan-dwaeji-gukbap.html): how to read & pronounce “돼지국밥” (dwae-ji-guk-bap).
-- [밀면 (Wheat cold noodles)](https://aiaijungle.github.io/ktown/seo/learn/busan-milmyeon.html): how to read & pronounce “밀면” (mil-myeon).
-- [씨앗호떡 (Seed-filled sweet pancake)](https://aiaijungle.github.io/ktown/seo/learn/busan-ssiat-hotteok.html): how to read & pronounce “씨앗호떡” (ssi-at-ho-tteok).
-- [자갈치시장 (Jagalchi Market)](https://aiaijungle.github.io/ktown/seo/learn/busan-jagalchi-market.html): how to read & pronounce “자갈치시장” (ja-gal-chi-si-jang).
-- [해운대 (Haeundae Beach)](https://aiaijungle.github.io/ktown/seo/learn/busan-haeundae.html): how to read & pronounce “해운대” (hae-un-dae).
-- [광안리 (Gwangalli Beach)](https://aiaijungle.github.io/ktown/seo/learn/busan-gwangalli.html): how to read & pronounce “광안리” (gwang-al-li).
-- [사직운동장 (Sajik Stadium (Busan))](https://aiaijungle.github.io/ktown/seo/learn/busan-sajik-stadium.html): how to read & pronounce “사직운동장” (sa-jik-un-dong-jang).
-- [서면 (Seomyeon (downtown Busan))](https://aiaijungle.github.io/ktown/seo/learn/busan-seomyeon.html): how to read & pronounce “서면” (seo-myeon).
-- [전포동 (Jeonpo-dong (café street))](https://aiaijungle.github.io/ktown/seo/learn/busan-jeonpo.html): how to read & pronounce “전포동” (jeon-po-dong).
-- [감천문화마을 (Gamcheon Culture Village)](https://aiaijungle.github.io/ktown/seo/learn/busan-gamcheon.html): how to read & pronounce “감천문화마을” (gam-cheon-mun-hwa-ma-eul).
-- [버스 (Bus)](https://aiaijungle.github.io/ktown/seo/learn/korean-bus.html): how to read & pronounce “버스” (beo-seu).
-- [교통카드 (Transit card (T-money))](https://aiaijungle.github.io/ktown/seo/learn/korean-transit-card.html): how to read & pronounce “교통카드” (gyo-tong-ka-deu).
-- [환승 (Transfer (subway/bus))](https://aiaijungle.github.io/ktown/seo/learn/korean-transfer.html): how to read & pronounce “환승” (hwan-seung).
-- [비빔밥 (Bibimbap)](https://aiaijungle.github.io/ktown/seo/learn/korean-bibimbap.html): how to read & pronounce “비빔밥” (bi-bim-bap).
-- [김밥 (Gimbap)](https://aiaijungle.github.io/ktown/seo/learn/korean-gimbap.html): how to read & pronounce “김밥” (gim-bap).
-- [불고기 (Bulgogi)](https://aiaijungle.github.io/ktown/seo/learn/korean-bulgogi.html): how to read & pronounce “불고기” (bul-go-gi).
-- [주세요 (Please give me)](https://aiaijungle.github.io/ktown/seo/learn/korean-juseyo.html): how to read & pronounce “주세요” (ju-se-yo).
-- [얼마예요 (How much is it?)](https://aiaijungle.github.io/ktown/seo/learn/korean-eolmayeyo.html): how to read & pronounce “얼마예요” (eol-ma-ye-yo).
-- [맛있어요 (It's delicious)](https://aiaijungle.github.io/ktown/seo/learn/korean-masisseoyo.html): how to read & pronounce “맛있어요” (ma-si-sseo-yo).
-- [편의점 (Convenience store)](https://aiaijungle.github.io/ktown/seo/learn/korean-pyeonuijeom.html): how to read & pronounce “편의점” (pyeon-ui-jeom).
+- [벡스코 (BEXCO)](https://aiaijungle.github.io/ktown/seo/learn/busan-bexco.html): read as “bek-seu-ko”, means “BEXCO”. BEXCO is Busan's largest convention & exhibition center, a frequent K-pop concert venue.
+- [올림픽홀 (Olympic Hall (Seoul))](https://aiaijungle.github.io/ktown/seo/learn/seoul-olympic-hall.html): read as “ol-lim-pik-hol”, means “Olympic Hall (Seoul)”. Olympic Hall in Seoul's Olympic Park hosts many concerts and K-pop showcases.
+- [돼지국밥 (Pork & rice soup)](https://aiaijungle.github.io/ktown/seo/learn/busan-dwaeji-gukbap.html): read as “dwae-ji-guk-bap”, means “Pork & rice soup”. Dwaeji-gukbap is Busan's signature dish: pork broth with rice. Found all over the city.
+- [밀면 (Wheat cold noodles)](https://aiaijungle.github.io/ktown/seo/learn/busan-milmyeon.html): read as “mil-myeon”, means “Wheat cold noodles”. Milmyeon is a Busan-born cold wheat-noodle dish, a summer favorite.
+- [씨앗호떡 (Seed-filled sweet pancake)](https://aiaijungle.github.io/ktown/seo/learn/busan-ssiat-hotteok.html): read as “ssi-at-ho-tteok”, means “Seed-filled sweet pancake”. Ssiat-hotteok is Busan's famous street snack: a sweet pancake stuffed with seeds and nuts.
+- [자갈치시장 (Jagalchi Market)](https://aiaijungle.github.io/ktown/seo/learn/busan-jagalchi-market.html): read as “ja-gal-chi-si-jang”, means “Jagalchi Market”. Jagalchi is Korea's largest seafood market, a Busan landmark by the harbor.
+- [해운대 (Haeundae Beach)](https://aiaijungle.github.io/ktown/seo/learn/busan-haeundae.html): read as “hae-un-dae”, means “Haeundae Beach”. Haeundae is Busan's most famous beach and a top travel destination.
+- [광안리 (Gwangalli Beach)](https://aiaijungle.github.io/ktown/seo/learn/busan-gwangalli.html): read as “gwang-al-li”, means “Gwangalli Beach”. Gwangalli Beach is known for the Gwangan Bridge night view in Busan.
+- [사직운동장 (Sajik Stadium (Busan))](https://aiaijungle.github.io/ktown/seo/learn/busan-sajik-stadium.html): read as “sa-jik-un-dong-jang”, means “Sajik Stadium (Busan)”. Sajik Stadium in Busan is home to the Lotte Giants baseball team and hosts big concerts and events.
+- [서면 (Seomyeon (downtown Busan))](https://aiaijungle.github.io/ktown/seo/learn/busan-seomyeon.html): read as “seo-myeon”, means “Seomyeon (downtown Busan)”. Seomyeon is Busan's busiest downtown — shopping, street food, and nightlife all in one place.
+- [전포동 (Jeonpo-dong (café street))](https://aiaijungle.github.io/ktown/seo/learn/busan-jeonpo.html): read as “jeon-po-dong”, means “Jeonpo-dong (café street)”. Jeonpo-dong, or Jeonpo Café Street, is Busan's trendy neighborhood full of cafés and boutiques.
+- [감천문화마을 (Gamcheon Culture Village)](https://aiaijungle.github.io/ktown/seo/learn/busan-gamcheon.html): read as “gam-cheon-mun-hwa-ma-eul”, means “Gamcheon Culture Village”. Gamcheon Culture Village is Busan's colorful hillside neighborhood, a famous photo spot for travelers.
+- [버스 (Bus)](https://aiaijungle.github.io/ktown/seo/learn/korean-bus.html): read as “beo-seu”, means “Bus”. Beoseu means bus. Tap your transit card on the reader when you get on and off.
+- [교통카드 (Transit card (T-money))](https://aiaijungle.github.io/ktown/seo/learn/korean-transit-card.html): read as “gyo-tong-ka-deu”, means “Transit card (T-money)”. Gyotong-kadeu is a transit card (like T-money) used on every Korean bus and subway.
+- [환승 (Transfer (subway/bus))](https://aiaijungle.github.io/ktown/seo/learn/korean-transfer.html): read as “hwan-seung”, means “Transfer (subway/bus)”. Hwanseung means transfer — switching subway lines or from bus to subway, free within a time limit.
+- [비빔밥 (Bibimbap)](https://aiaijungle.github.io/ktown/seo/learn/korean-bibimbap.html): read as “bi-bim-bap”, means “Bibimbap”. Bibimbap is mixed rice with vegetables, egg, and gochujang — one of Korea's most famous dishes.
+- [김밥 (Gimbap)](https://aiaijungle.github.io/ktown/seo/learn/korean-gimbap.html): read as “gim-bap”, means “Gimbap”. Gimbap is seasoned rice and fillings rolled in seaweed — a popular Korean snack.
+- [불고기 (Bulgogi)](https://aiaijungle.github.io/ktown/seo/learn/korean-bulgogi.html): read as “bul-go-gi”, means “Bulgogi”. Bulgogi is thin marinated grilled beef, a classic Korean BBQ dish.
+- [주세요 (Please give me)](https://aiaijungle.github.io/ktown/seo/learn/korean-juseyo.html): read as “ju-se-yo”, means “Please give me”. Juseyo means 'please give me' — the essential word for ordering food or shopping in Korea.
+- [얼마예요 (How much is it?)](https://aiaijungle.github.io/ktown/seo/learn/korean-eolmayeyo.html): read as “eol-ma-ye-yo”, means “How much is it?”. Eolmayeyo means 'how much is it?' — what you say to ask a price in any Korean shop.
+- [맛있어요 (It's delicious)](https://aiaijungle.github.io/ktown/seo/learn/korean-masisseoyo.html): read as “ma-si-sseo-yo”, means “It's delicious”. Masisseoyo means 'it's delicious' — the compliment every Korean cook loves to hear.
+- [편의점 (Convenience store)](https://aiaijungle.github.io/ktown/seo/learn/korean-pyeonuijeom.html): read as “pyeon-ui-jeom”, means “Convenience store”. Pyeonuijeom is a convenience store — open everywhere in Korea for snacks, water, and more.
+- [지하철 (Subway)](https://aiaijungle.github.io/ktown/seo/learn/korean-subway.html): read as “ji-ha-cheol”, means “Subway”. Jihacheol means subway — Korea's fast, cheap way to get around every major city.
+- [아메리카노 (Americano (coffee))](https://aiaijungle.github.io/ktown/seo/learn/korean-americano.html): read as “a-me-ri-ka-no”, means “Americano (coffee)”. Amerikano is the most-ordered coffee in Korea — just say it at any cafe counter.
+- [화이팅 (You can do it! (cheer))](https://aiaijungle.github.io/ktown/seo/learn/korean-hwaiting.html): read as “hwa-i-ting”, means “You can do it! (cheer)”. Hwaiting is Korea's all-purpose cheer — fans shout it to support their favorite idols.
+- [대박 (Awesome / Jackpot)](https://aiaijungle.github.io/ktown/seo/learn/korean-daebak.html): read as “dae-bak”, means “Awesome / Jackpot”. Daebak means awesome or jackpot — the slang K-pop fans use when a comeback drops.
 
 ## Play
-- [K-Town game](https://aiaijungle.github.io/ktown/seo/game/index.html): free interactive demo.
+- [K-Town game](https://aiaijungle.github.io/ktown/game/): free browser game — read real Korean signs (taxi, subway, convenience store, cafe, K-pop slang) across 6 missions. No login, works on phone, 5 languages, 100% free.
+
+## About
+K-Town teaches absolute beginners to READ Korean (Hangul) from zero through real-life situations. Goal: help 10,000 foreigners read Korean. For K-pop fans and travelers to Korea.

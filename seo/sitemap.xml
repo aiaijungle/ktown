@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://aiaijungle.github.io/ktown/</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://aiaijungle.github.io/ktown/game/</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://aiaijungle.github.io/ktown/seo/</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://aiaijungle.github.io/ktown/seo/learn/busan-bexco.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://aiaijungle.github.io/ktown/seo/learn/seoul-olympic-hall.html</loc><changefreq>weekly</changefreq></url>
@@ -23,4 +25,8 @@
   <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-eolmayeyo.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-masisseoyo.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-pyeonuijeom.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-subway.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-americano.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-hwaiting.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://aiaijungle.github.io/ktown/seo/learn/korean-daebak.html</loc><changefreq>weekly</changefreq></url>
 </urlset>
