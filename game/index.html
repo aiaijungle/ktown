@@ -147,6 +147,14 @@ input.name:focus{border-color:var(--amber)}
 /* 학습 가이드 텍스트 */
 .guide{font-size:13px;color:#ffd9a6;background:#ff8c0014;border:1px solid #ff8c0033;border-radius:11px;padding:9px 12px;margin:10px 0 4px;line-height:1.45;font-weight:600}
 .guide b{color:var(--amber)}
+/* 인터랙티브 후기 단계 */
+.stars{display:flex;gap:12px;justify-content:center;margin:20px 0;font-size:48px;color:#ffffff2e;line-height:1}
+.star{cursor:pointer;transition:transform .12s,color .12s,text-shadow .12s}
+.star.on{color:#ffd166;text-shadow:0 2px 14px #ffd16688}
+.star:active{transform:scale(.9)}
+.star:hover{transform:scale(1.15)}
+.rvtext{width:100%;font-size:15px;padding:13px;border-radius:13px;border:1px solid #ffffff26;background:#ffffff10;color:#fff;outline:none;resize:none;font-family:inherit;line-height:1.5}
+.rvtext:focus{border-color:var(--amber)}
 /* 3D 한글 비 (타이틀 인트로) */
 #rain{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;perspective:700px}
 .rdrop{position:absolute;top:0;font-weight:800;white-space:nowrap;text-align:center;will-change:transform,opacity;animation:rfall linear infinite;text-shadow:0 2px 18px rgba(0,0,0,.5)}
@@ -230,7 +238,7 @@ function say(t){
   try{const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
 
 /* ===== game state ===== */
-const S={name:'',han:'',step:0,total:20,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false,srs:{}};
+const S={name:'',han:'',step:0,total:20,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false,srs:{},reviewed:false};
 const DAY=864e5, SRS_INT=[1,3,7,30];  // 간격반복: 1·3·7·30일 (Ebbinghaus)
 const $=id=>document.getElementById(id);
 const scene=$('scene');
@@ -255,8 +263,8 @@ function confetti(x,y,n=26){for(let i=0;i<n;i++){const d=document.createElement(
   document.body.appendChild(d);setTimeout(()=>d.remove(),950);}}
 function popup(t){const e=document.createElement('div');e.className='popup';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),1100);}
 function flash(){const e=document.createElement('div');e.className='flash';document.body.appendChild(e);setTimeout(()=>e.remove(),500);}
-function saveState(){try{localStorage.setItem('ktown',JSON.stringify({xp:S.xp,streak:S.streak,last:S.last,collected:S.collected,achv:S.achv,bkPrompted:S.bkPrompted,srs:S.srs}));}catch(e){}}
-function loadState(){try{const s=JSON.parse(localStorage.getItem('ktown')||'{}');S.xp=s.xp||0;S.streak=s.streak||0;S.last=s.last||'';S.collected=s.collected||[];S.achv=s.achv||[];S.bkPrompted=s.bkPrompted||false;S.srs=s.srs||{};}catch(e){}}
+function saveState(){try{localStorage.setItem('ktown',JSON.stringify({xp:S.xp,streak:S.streak,last:S.last,collected:S.collected,achv:S.achv,bkPrompted:S.bkPrompted,srs:S.srs,reviewed:S.reviewed}));}catch(e){}}
+function loadState(){try{const s=JSON.parse(localStorage.getItem('ktown')||'{}');S.xp=s.xp||0;S.streak=s.streak||0;S.last=s.last||'';S.collected=s.collected||[];S.achv=s.achv||[];S.bkPrompted=s.bkPrompted||false;S.srs=s.srs||{};S.reviewed=s.reviewed||false;}catch(e){}}
 function touchStreak(){const d=new Date(),today=d.toISOString().slice(0,10),y=new Date(d.getTime()-864e5).toISOString().slice(0,10);
   if(S.last!==today){S.streak=(S.last===y)?S.streak+1:1;S.last=today;saveState();}}
 /* ===== Word Dex collection + achievements (재미·성취) ===== */
@@ -519,8 +527,10 @@ function passport(idx){const m=MISSIONS[idx];setProg(2+idx*3+2);
   $('dexbtn').onclick=dex;
   $('next').onclick=()=>{
     if(!more){finishGame();return;}
-    if(idx>=1 && !S.bkPrompted){S.bkPrompted=true;saveState();backupForm(()=>startMission(idx+1));}
-    else startMission(idx+1);
+    const go=()=>startMission(idx+1);
+    if(idx===0 && !S.reviewed){S.reviewed=true;saveState();reviewStage(go);return;}   // 1미션 후 후기 단계
+    if(idx>=1 && !S.bkPrompted){S.bkPrompted=true;saveState();backupForm(go);return;}
+    go();
   };
   setTimeout(()=>{const st=document.querySelector('.stamp');if(st){const r=st.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2,46);}sndStamp();buzz(60);},300);
 }
@@ -542,6 +552,30 @@ function finishGame(){setProg(S.total);
   $('dexbtn').onclick=dex;
   $('again').onclick=()=>startMission(0);
   setTimeout(()=>{flash();sndStamp();},250);
+}
+/* ===== 인터랙티브 후기 단계 (후기 쓰면 다음 단계 잠금해제 + 후기 수집·사회적증거) ===== */
+const REVIEW_ENDPOINT=''; // ⚠️ CEO: Supabase reviews insert URL. 비어있으면 로컬만 저장.
+function getReviews(){try{return JSON.parse(localStorage.getItem('ktownReviews')||'[]');}catch(e){return[];}}
+function reviewStage(onDone){stopRain();setProg(S.step);
+  let rating=0;
+  scene.innerHTML=`<h1>⭐ <span class="a">Quick review</span></h1>
+   <p class="lead">Enjoying K-Town? Drop a quick review to unlock the next stop — and help other learners find it. 🇰🇷</p>
+   <div class="stars" id="stars">${[1,2,3,4,5].map(i=>`<span class="star" data-s="${i}">★</span>`).join('')}</div>
+   <textarea class="rvtext" id="rvText" rows="3" maxlength="160" placeholder="e.g. I can finally read Korean signs — so fun!"></textarea>
+   <div class="spacer"></div>
+   <button class="btn" id="rvGo" disabled>Post & continue →</button>
+   <button class="sclose" id="rvSkip" style="width:100%;margin-top:10px">Maybe later</button>`;
+  const stars=$('stars').querySelectorAll('.star'), go=$('rvGo'), txt=$('rvText');
+  const refresh=()=>{stars.forEach((s,i)=>s.classList.toggle('on',i<rating));go.disabled=(rating===0 && !txt.value.trim());};
+  stars.forEach(s=>s.onclick=()=>{rating=+s.dataset.s;refresh();});
+  txt.oninput=refresh;
+  go.onclick=()=>{
+    const rv={stars:rating,text:txt.value.trim().slice(0,160),name:S.han||S.name||'',lang:getLang(),ts:new Date().toISOString()};
+    try{const all=getReviews();all.unshift(rv);localStorage.setItem('ktownReviews',JSON.stringify(all.slice(0,50)));}catch(e){}
+    try{if(REVIEW_ENDPOINT)fetch(REVIEW_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rv),keepalive:true});}catch(e){}
+    S.reviewed=true;saveState();flash();sndStamp();buzz(40);toast('Thanks! 🙏 Next stop unlocked');setTimeout(onDone,720);
+  };
+  $('rvSkip').onclick=()=>{S.reviewed=true;saveState();onDone();};
 }
 /* ===== SNS 공유 (바이럴) — 웹 인텐트 8종 + 네이티브 공유 + 저장 ===== */
 const SITE_URL='https://aiaijungle.github.io/ktown/game'; // 배포 URL (GitHub Pages) 확정 후 교체
