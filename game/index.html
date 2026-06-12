@@ -220,7 +220,8 @@ function say(t){
   try{const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
 
 /* ===== game state ===== */
-const S={name:'',han:'',step:0,total:20,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false};
+const S={name:'',han:'',step:0,total:20,mi:0,xp:0,combo:0,streak:0,last:'',collected:[],achv:[],bkPrompted:false,srs:{}};
+const DAY=864e5, SRS_INT=[1,3,7,30];  // 간격반복: 1·3·7·30일 (Ebbinghaus)
 const $=id=>document.getElementById(id);
 const scene=$('scene');
 function setProg(n){S.step=n;$('prog').style.width=(n/S.total*100)+'%';$('me').innerHTML=(S.streak?'🔥 '+S.streak+' &nbsp; ':'')+'⭐ '+S.xp;}
@@ -244,8 +245,8 @@ function confetti(x,y,n=26){for(let i=0;i<n;i++){const d=document.createElement(
   document.body.appendChild(d);setTimeout(()=>d.remove(),950);}}
 function popup(t){const e=document.createElement('div');e.className='popup';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),1100);}
 function flash(){const e=document.createElement('div');e.className='flash';document.body.appendChild(e);setTimeout(()=>e.remove(),500);}
-function saveState(){try{localStorage.setItem('ktown',JSON.stringify({xp:S.xp,streak:S.streak,last:S.last,collected:S.collected,achv:S.achv,bkPrompted:S.bkPrompted}));}catch(e){}}
-function loadState(){try{const s=JSON.parse(localStorage.getItem('ktown')||'{}');S.xp=s.xp||0;S.streak=s.streak||0;S.last=s.last||'';S.collected=s.collected||[];S.achv=s.achv||[];S.bkPrompted=s.bkPrompted||false;}catch(e){}}
+function saveState(){try{localStorage.setItem('ktown',JSON.stringify({xp:S.xp,streak:S.streak,last:S.last,collected:S.collected,achv:S.achv,bkPrompted:S.bkPrompted,srs:S.srs}));}catch(e){}}
+function loadState(){try{const s=JSON.parse(localStorage.getItem('ktown')||'{}');S.xp=s.xp||0;S.streak=s.streak||0;S.last=s.last||'';S.collected=s.collected||[];S.achv=s.achv||[];S.bkPrompted=s.bkPrompted||false;S.srs=s.srs||{};}catch(e){}}
 function touchStreak(){const d=new Date(),today=d.toISOString().slice(0,10),y=new Date(d.getTime()-864e5).toISOString().slice(0,10);
   if(S.last!==today){S.streak=(S.last===y)?S.streak+1:1;S.last=today;saveState();}}
 /* ===== Word Dex collection + achievements (재미·성취) ===== */
@@ -264,7 +265,47 @@ const ACHV=[
 ];
 function checkAchv(){ACHV.forEach(a=>{if(!S.achv.includes(a.id)&&a.d()){S.achv.push(a.id);saveState();
   setTimeout(()=>{popup('🏆 '+a.n);flash();sndStamp();confetti(innerWidth/2,innerHeight*0.35,44);},250);}});}
-function addCollected(kr){if(!isGot(kr)){S.collected.push(kr);saveState();checkAchv();return true;}return false;}
+function addCollected(kr){if(!isGot(kr)){S.collected.push(kr);if(!S.srs[kr])S.srs[kr]={n:0,due:Date.now()+DAY};saveState();checkAchv();return true;}return false;}
+/* ===== 복습 (SRS · 간격반복) ===== */
+function dueCount(){const now=Date.now();return allWords().filter(w=>isGot(w.kr)&&(!S.srs[w.kr]||S.srs[w.kr].due<=now)).length;}
+function dueWords(){const now=Date.now();return allWords().filter(w=>isGot(w.kr)&&(!S.srs[w.kr]||S.srs[w.kr].due<=now));}
+function review(){
+  const due=dueWords(), pool=(due.length?due:allWords().filter(w=>isGot(w.kr))).slice(0,12);
+  if(!pool.length){toast('Play a mission to collect words first! 🎮');return;}
+  const all=allWords(); let i=0,correct=0;
+  function card(){
+    if(i>=pool.length){setProg(0);
+      scene.innerHTML=`<h1>🔁 <span class="a">Review done!</span></h1>
+        <p class="lead">${correct}/${pool.length} correct. Words you remember come back later — that's how they stick. 🧠</p>
+        <div class="spacer"></div>
+        <button class="btn" id="ragain">🔁 Review again</button>
+        <button class="btn ghost" id="rhome">🏠 Home</button>`;
+      $('ragain').onclick=review; $('rhome').onclick=title; return;}
+    const w=pool[i];
+    const opts=[w,...all.filter(x=>norm(x.kr)!==norm(w.kr)).sort(()=>Math.random()-.5).slice(0,2)].sort(()=>Math.random()-.5);
+    setProg(0);
+    scene.innerHTML=`<h1>🔁 <span class="a">Review</span> <span style="font-size:15px;color:#8c7c6c">${i+1}/${pool.length}</span></h1>
+      <p class="guide">👆 What does this word mean? 🔊 tap the word to hear it</p>
+      <div class="hanbig" id="rk" style="cursor:pointer">${w.kr}</div>
+      <p class="cap">${w.r}</p>
+      <div class="signs" id="ropts"></div>`;
+    say(w.kr); $('rk').onclick=()=>say(w.kr);
+    const wrap=$('ropts');
+    opts.forEach(o=>{const el=document.createElement('div');el.className='sign';
+      el.innerHTML=`<span class="kr" style="font-size:18px">${o.en}</span>`;
+      el.onclick=()=>{
+        const e=S.srs[w.kr]||{n:0};
+        if(norm(o.kr)===norm(w.kr)){el.classList.add('right');correct++;S.xp+=8;
+          e.n=Math.min((e.n||0)+1,SRS_INT.length-1);e.due=Date.now()+SRS_INT[e.n]*DAY;S.srs[w.kr]=e;saveState();
+          const r=el.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2,18);sndCorrect(1);buzz(20);
+          i++;setTimeout(card,520);}
+        else{el.classList.add('wrong');sndWrong();buzz(40);
+          e.n=0;e.due=Date.now()+DAY;S.srs[w.kr]=e;saveState();
+          toast(`It means "${w.en}" 🔊`);setTimeout(()=>el.classList.remove('wrong'),900);}
+      };wrap.appendChild(el);});
+  }
+  stopRain();card();
+}
 loadState();
 
 /* ===== scenes ===== */
@@ -291,11 +332,14 @@ function title(){touchStreak();startRain();setProg(0);scene.innerHTML=`
   <p class="lead">${t('titleLead')}</p>
   <div class="slideshow" id="slideshow"></div>
   <button class="btn" id="go">${t('start')}</button>
+  ${dexGot()>0?`<button class="btn ghost" id="rev">🔁 Review words${dueCount()?` · <b style="color:#27c093">${dueCount()} ready</b>`:''}</button>`:''}
+  ${S.streak>=2?`<p class="guide" style="text-align:center">🔥 ${S.streak}-day streak — play today so you don't lose it!</p>`:''}
   <p class="legal">A fan-made Korean learning game. 100% free. Not affiliated with any artist, label or brand.</p>`;
   renderLangSel();renderVisitors();renderChallenge();startSlideshow();
   clearInterval(_chTimer);
   _chTimer=setInterval(()=>{if(!document.getElementById('challenge')){clearInterval(_chTimer);return;}renderChallenge();},4000);
   $('go').onclick=enterName;
+  if($('rev'))$('rev').onclick=review;
 }
 /* 100일 동안 외국인 1만 명 챌린지 — D-카운트다운 + 방문/실시간 (전자책 카운터 참고) */
 const LAUNCH=new Date('2026-06-12T00:00:00'), GOAL_LEARNERS=10000;

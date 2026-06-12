@@ -1,5 +1,5 @@
 /* K-Town service worker — 오프라인 동작 + 폰 소장 (전자책처럼) */
-const CACHE = 'ktown-v19';  // ⚠️ 에셋(i18n.js·worddex.js 등) 수정할 때마다 버전 올리기
+const CACHE = 'ktown-v20';  // ⚠️ 에셋(i18n.js·worddex.js 등) 수정할 때마다 버전 올리기
 const PHOTOS = ['man','woman','woman2','seoul','busan','concert','samgyeopsal','gimbap','food2'].map(n=>`./photos/${n}.jpg`);
 const ASSETS = ['./', './index.html', './worddex.js', './i18n.js', './audio_map.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', ...PHOTOS];
 self.addEventListener('install', e => {
