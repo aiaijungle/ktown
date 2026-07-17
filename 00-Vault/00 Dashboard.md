@@ -19,9 +19,9 @@ AI 바이블/AITF 비즈니스 라인과는 **별개의 사이드 프로젝트**
 | `namecard/` | Your Name in 한글 | 이름 명함(한글 변환) 도구 |
 | `seo/` | Learn to Read Korean Free | SEO 랜딩(한글 학습, K-pop/음식/간판 소재), 자체 `llms.txt`·`sitemap.xml` 보유 |
 
-## 중복 확인 필요
+## 두 도메인 배포 (동기화 안 함, 기록만)
 
-`aiaijungle/aitf-landing` 저장소 안에도 `ktown/` 폴더가 그대로 존재함([[00 Dashboard|aitf-landing 노트]] 참고). 둘 중 어느 쪽이 실제 배포 소스인지, 아니면 aitf-landing 쪽이 이 저장소의 미러/서브모듈인지 확인 필요.
+이 저장소는 `aiaijungle.github.io/ktown`(GitHub Pages)로 배포되고, `aiaijungle/aitf-landing`의 `ktown/` 폴더는 `aitf-landing.onrender.com/ktown`(Render)로 별도 배포됨. 이 저장소가 더 최신(2026-07-17 SEO 강화, 롱테일 페이지 4개 추가)이고 aitf-landing 쪽은 뒤처져 있음 — 상세 차이는 `aitf-landing` 저장소의 `ktown 배포 동기화 상태` 노트 참고. 지금은 동기화하지 않고 차이만 기록하기로 결정(2026-07-17).
 
 ## PARA 연동
 
